@@ -1,0 +1,233 @@
+/* ChatBox Component Styles */
+.chatbox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 420px; /* Giảm chiều cao tối đa để hiển thị gọn gàng hơn */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header styles are now defined below */
+
+.chatbox-header {
+  padding: 15px;
+  background-color: #1e40af;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbox-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.lang-toggle-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.lang-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.chatbox-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9fafb;
+  max-height: 320px; /* Giảm chiều cao tối đa để hiển thị hợp lý hơn */
+  position: relative; /* Đảm bảo vị trí tương đối để tin nhắn không bị tràn */
+  overflow-x: hidden; /* Ngăn cuộn ngang */
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.message.user {
+  align-self: flex-end;
+}
+
+.message.bot {
+  align-self: flex-start;
+}
+
+.message-content {
+  padding: 10px 15px;
+  border-radius: 16px;
+  position: relative;
+}
+
+.message.user .message-content {
+  background-color: #3b82f6;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .message-content {
+  background-color: #e5e7eb;
+  color: #111827;
+  border-bottom-left-radius: 4px;
+}
+
+.message-text {
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.message-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.chatbox-input {
+  display: flex;
+  padding: 8px;
+  border-top: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+.chatbox-input input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  outline: none;
+  font-size: 0.95rem;
+}
+
+.chatbox-input input:focus {
+  border-color: #3b82f6;
+}
+
+.chatbox-input button {
+  margin-left: 6px;
+  padding: 6px 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.95rem;
+}
+
+.chatbox-input button:hover {
+  background-color: #2563eb;
+}
+
+.chatbox-input button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 3px;
+  padding: 5px 0;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #6b7280;
+  display: inline-block;
+  animation: bounce 1.3s linear infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Scroll to bottom button */
+.scroll-bottom-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background-color: rgba(59, 130, 246, 0.9);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+  z-index: 100;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+.scroll-bottom-btn:hover {
+  background-color: #2563eb;
+}
+
+.message-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  align-self: flex-start;
+}
+
+.message-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s;
+}
+
+.create-ticket-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.create-ticket-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.continue-chat-btn {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.continue-chat-btn:hover {
+  background-color: #d1d5db;
+}

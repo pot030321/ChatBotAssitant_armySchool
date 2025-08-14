@@ -1,0 +1,71 @@
+/* Student Dashboard specific styles */
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px; /* Adjust the width of the chatbot column */
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .chatbox-card {
+    height: 500px; /* Smaller on mobile */
+  }
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Make chatbot container more compact */
+.chatbox-card {
+  margin-bottom: 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-height: 450px; /* Giới hạn chiều cao tổng thể của card */
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 20px; /* Giữ chatbox luôn hiển thị dù cuộn trang */
+}
+
+.chatbox-card:hover {
+  transform: none; /* Don't apply the default card hover effect */
+}
+
+/* Style the chatbox header */
+.chatbox-card .card-header {
+  background-color: #1e40af;
+  border-radius: 10px 10px 0 0;
+  padding: 15px 20px;
+  margin-bottom: 0;
+}
+
+.chatbox-card .card-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* For the scroll area in the chatbox */
+.chatbox-messages {
+  height: 320px; /* Giảm chiều cao để hợp lý hơn */
+}
+
+/* Make the thread form more prominent */
+#thread-form {
+  border-left: 4px solid #3b82f6;
+}
+
+/* Sticky recent questions heading for easier scrolling */
+.card .card-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}

@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+pytest
+python-dotenv
+google-generativeai
+python-jose[cryptography]
+# Ensure compatible bcrypt backend for passlib
+passlib==1.7.4
+python-multipart

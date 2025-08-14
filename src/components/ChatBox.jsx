@@ -26,12 +26,8 @@ const ChatBox = ({ onCreateTicket }) => {
       console.error('Error getting user role:', err);
     }
 
-    // Get current language
-    const { language } = useLanguage();
-    
-    // Customize welcome message based on user role
+    // Customize welcome message based on user role and language (from hook at top-level)
     let welcomeMessage = '';
-    
     if (language === 'en') {
       if (userRole === 'manager') {
         welcomeMessage = 'Hello! I am the management assistant. How can I help you?';
@@ -53,7 +49,6 @@ const ChatBox = ({ onCreateTicket }) => {
         welcomeMessage = 'Xin chào! Tôi là trợ lý ảo của hệ thống hỗ trợ sinh viên. Bạn cần giúp đỡ gì?';
       }
     }
-    
     setMessages([
       {
         id: 1,
@@ -62,7 +57,7 @@ const ChatBox = ({ onCreateTicket }) => {
         timestamp: new Date()
       }
     ]);
-  }, []);
+  }, [language]);
 
   // Add a state to track if auto-scrolling should occur
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);

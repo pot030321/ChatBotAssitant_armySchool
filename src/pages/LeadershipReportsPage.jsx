@@ -80,20 +80,20 @@ const LeadershipReportsPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership')}>Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/analytics')}>Analytics</li>
-          <li className="sidebar-menu-item active">Reports</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership')}>Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/analytics')}>Phân tích</li>
+          <li className="sidebar-menu-item active">Báo cáo</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Report Generator</h1>
+          <h1 className="page-title">Tạo báo cáo</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -106,34 +106,34 @@ const LeadershipReportsPage = () => {
         {isLoading ? (
           <div className="loading-container">
             <div className="spinner"></div>
-            <p>Loading report data...</p>
+            <p>Đang tải dữ liệu báo cáo...</p>
           </div>
         ) : analyticsData ? (
           <div className="reports-content">
             <div className="card mb-4">
               <div className="card-header">
-                <h2 className="card-title">Generate Reports</h2>
+                <h2 className="card-title">Tạo báo cáo</h2>
               </div>
               <div className="card-body">
                 <div className="report-form">
                   <div className="form-group">
-                    <label>Report Type</label>
+                    <label>Loại báo cáo</label>
                     <select 
                       className="form-control" 
                       value={selectedReport}
                       onChange={(e) => setSelectedReport(e.target.value)}
                     >
-                      <option value="weekly">Weekly Summary</option>
-                      <option value="monthly">Monthly Summary</option>
-                      <option value="department">Department Performance</option>
-                      <option value="response">Response Time Analysis</option>
-                      <option value="custom">Custom Report</option>
+                      <option value="weekly">Tổng kết tuần</option>
+                      <option value="monthly">Tổng kết tháng</option>
+                      <option value="department">Hiệu suất phòng ban</option>
+                      <option value="response">Phân tích thời gian phản hồi</option>
+                      <option value="custom">Báo cáo tùy chỉnh</option>
                     </select>
                   </div>
                   
                   <div className="form-row">
                     <div className="form-group">
-                      <label>Start Date</label>
+                      <label>Ngày bắt đầu</label>
                       <input 
                         type="date" 
                         className="form-control"
@@ -143,7 +143,7 @@ const LeadershipReportsPage = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label>End Date</label>
+                      <label>Ngày kết thúc</label>
                       <input 
                         type="date" 
                         className="form-control"
@@ -154,33 +154,33 @@ const LeadershipReportsPage = () => {
                   </div>
                   
                   <div className="form-group">
-                    <label>Include Sections</label>
+                    <label>Bao gồm các phần</label>
                     <div className="checkbox-group">
                       <div className="checkbox-item">
                         <input type="checkbox" id="include-summary" defaultChecked />
-                        <label htmlFor="include-summary">Executive Summary</label>
+                        <label htmlFor="include-summary">Tóm tắt điều hành</label>
                       </div>
                       <div className="checkbox-item">
                         <input type="checkbox" id="include-metrics" defaultChecked />
-                        <label htmlFor="include-metrics">Key Metrics</label>
+                        <label htmlFor="include-metrics">Chỉ số quan trọng</label>
                       </div>
                       <div className="checkbox-item">
                         <input type="checkbox" id="include-department" defaultChecked />
-                        <label htmlFor="include-department">Department Breakdown</label>
+                        <label htmlFor="include-department">Phân tích theo phòng ban</label>
                       </div>
                       <div className="checkbox-item">
                         <input type="checkbox" id="include-types" defaultChecked />
-                        <label htmlFor="include-types">Issue Types</label>
+                        <label htmlFor="include-types">Loại yêu cầu</label>
                       </div>
                       <div className="checkbox-item">
                         <input type="checkbox" id="include-recommendations" defaultChecked />
-                        <label htmlFor="include-recommendations">Recommendations</label>
+                        <label htmlFor="include-recommendations">Khuyến nghị</label>
                       </div>
                     </div>
                   </div>
                   
                   <div className="form-group">
-                    <label>Output Format</label>
+                    <label>Định dạng đầu ra</label>
                     <div className="radio-group">
                       <div className="radio-item">
                         <input type="radio" id="format-pdf" name="format" defaultChecked />
@@ -203,7 +203,7 @@ const LeadershipReportsPage = () => {
                       onClick={handleGenerateReport}
                       disabled={isGenerating}
                     >
-                      {isGenerating ? 'Generating...' : 'Generate Report'}
+                      {isGenerating ? 'Đang tạo...' : 'Tạo báo cáo'}
                     </button>
                   </div>
                 </div>
@@ -212,49 +212,49 @@ const LeadershipReportsPage = () => {
             
             <div className="card mb-4">
               <div className="card-header">
-                <h2 className="card-title">Recent Reports</h2>
+                <h2 className="card-title">Báo cáo gần đây</h2>
               </div>
               <div className="card-body">
                 <div className="recent-reports">
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Report Name</th>
-                        <th>Type</th>
-                        <th>Date Range</th>
-                        <th>Generated</th>
-                        <th>Actions</th>
+                        <th>Tên báo cáo</th>
+                        <th>Loại</th>
+                        <th>Khoảng thời gian</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Weekly Summary</td>
-                        <td>Weekly</td>
-                        <td>08/05/2025 - 08/12/2025</td>
-                        <td>08/12/2025</td>
+                        <td>Tổng kết tuần</td>
+                        <td>Hàng tuần</td>
+                        <td>05/08/2025 - 12/08/2025</td>
+                        <td>12/08/2025</td>
                         <td>
-                          <button className="btn btn-sm">View</button>
-                          <button className="btn btn-sm ms-2">Download</button>
+                          <button className="btn btn-sm">Xem</button>
+                          <button className="btn btn-sm ms-2">Tải xuống</button>
                         </td>
                       </tr>
                       <tr>
-                        <td>July Monthly Report</td>
-                        <td>Monthly</td>
-                        <td>07/01/2025 - 07/31/2025</td>
-                        <td>08/03/2025</td>
+                        <td>Báo cáo tháng 7</td>
+                        <td>Hàng tháng</td>
+                        <td>01/07/2025 - 31/07/2025</td>
+                        <td>03/08/2025</td>
                         <td>
-                          <button className="btn btn-sm">View</button>
-                          <button className="btn btn-sm ms-2">Download</button>
+                          <button className="btn btn-sm">Xem</button>
+                          <button className="btn btn-sm ms-2">Tải xuống</button>
                         </td>
                       </tr>
                       <tr>
-                        <td>IT Department Performance</td>
-                        <td>Department</td>
-                        <td>07/15/2025 - 08/15/2025</td>
-                        <td>08/15/2025</td>
+                        <td>Hiệu suất Phòng CNTT</td>
+                        <td>Phòng ban</td>
+                        <td>15/07/2025 - 15/08/2025</td>
+                        <td>15/08/2025</td>
                         <td>
-                          <button className="btn btn-sm">View</button>
-                          <button className="btn btn-sm ms-2">Download</button>
+                          <button className="btn btn-sm">Xem</button>
+                          <button className="btn btn-sm ms-2">Tải xuống</button>
                         </td>
                       </tr>
                     </tbody>
@@ -265,39 +265,39 @@ const LeadershipReportsPage = () => {
             
             <div className="card">
               <div className="card-header">
-                <h2 className="card-title">Scheduled Reports</h2>
+                <h2 className="card-title">Báo cáo đã lên lịch</h2>
               </div>
               <div className="card-body">
                 <div className="scheduled-reports">
                   <table className="table">
                     <thead>
                       <tr>
-                        <th>Report Name</th>
-                        <th>Schedule</th>
-                        <th>Recipients</th>
-                        <th>Next Run</th>
-                        <th>Actions</th>
+                        <th>Tên báo cáo</th>
+                        <th>Lịch</th>
+                        <th>Người nhận</th>
+                        <th>Lần chạy tiếp theo</th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Weekly Executive Summary</td>
-                        <td>Every Monday at 8:00 AM</td>
+                        <td>Tóm tắt điều hành hàng tuần</td>
+                        <td>Mỗi thứ Hai lúc 8:00 sáng</td>
                         <td>leadership@university.edu</td>
-                        <td>08/19/2025</td>
+                        <td>19/08/2025</td>
                         <td>
-                          <button className="btn btn-sm">Edit</button>
-                          <button className="btn btn-sm btn-secondary ms-2">Delete</button>
+                          <button className="btn btn-sm">Sửa</button>
+                          <button className="btn btn-sm btn-secondary ms-2">Xóa</button>
                         </td>
                       </tr>
                       <tr>
-                        <td>Monthly Performance Report</td>
-                        <td>1st of month at 9:00 AM</td>
+                        <td>Báo cáo hiệu suất hàng tháng</td>
+                        <td>Ngày 1 hàng tháng lúc 9:00 sáng</td>
                         <td>leadership@university.edu, departments@university.edu</td>
-                        <td>09/01/2025</td>
+                        <td>01/09/2025</td>
                         <td>
-                          <button className="btn btn-sm">Edit</button>
-                          <button className="btn btn-sm btn-secondary ms-2">Delete</button>
+                          <button className="btn btn-sm">Sửa</button>
+                          <button className="btn btn-sm btn-secondary ms-2">Xóa</button>
                         </td>
                       </tr>
                     </tbody>
@@ -305,14 +305,14 @@ const LeadershipReportsPage = () => {
                 </div>
                 
                 <div className="mt-3">
-                  <button className="btn">Schedule New Report</button>
+                  <button className="btn">Lên lịch báo cáo mới</button>
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <div className="text-center p-4">
-            No report data available.
+            Không có dữ liệu báo cáo nào.
           </div>
         )}
       </div>

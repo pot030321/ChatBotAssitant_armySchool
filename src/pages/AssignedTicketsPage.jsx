@@ -56,11 +56,31 @@ const AssignedTicketsPage = () => {
     setError('');
     
     try {
+      // Log thông tin người dùng để debug
+      const userData = getUserInfo();
+      if (userData) {
+        console.log('Current user department:', userData.department);
+      }
+      
       const response = await getAssignedThreads();
       
       if (response.success) {
+        console.log(`Received ${response.threads ? response.threads.length : 0} assigned threads`);
+        if (response.threads && response.threads.length > 0) {
+          // Log chi tiết thread đầu tiên để debug
+          console.log('First assigned thread:', {
+            id: response.threads[0].id,
+            title: response.threads[0].title,
+            assigned_to: response.threads[0].assigned_to,
+            status: response.threads[0].status
+          });
+        } else {
+          console.log('No assigned threads found');
+        }
+        
         setThreads(response.threads || []);
       } else {
+        console.error('Failed to fetch assigned threads:', response.error);
         throw new Error('Failed to fetch assigned threads');
       }
     } catch (err) {

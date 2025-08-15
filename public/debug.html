@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra JWT Token</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Công Cụ Debug Token JWT</h1>
+    <button id="btnCheckToken">Kiểm tra JWT token</button>
+    <button id="btnCheckLocalStorage">Kiểm tra Local Storage</button>
+    <button id="btnCheckThreads">Kiểm tra Thread API</button>
+    
+    <div class="result">
+        <h2>Kết quả:</h2>
+        <pre id="output">Nhấn nút để kiểm tra...</pre>
+    </div>
+
+    <script>
+        document.getElementById('btnCheckToken').addEventListener('click', function() {
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                document.getElementById('output').textContent = 'Không tìm thấy token trong localStorage!';
+                return;
+            }
+            
+            try {
+                // Lấy phần payload từ JWT (phần thứ hai)
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                document.getElementById('output').textContent = JSON.stringify(JSON.parse(jsonPayload), null, 2);
+            } catch (e) {
+                document.getElementById('output').textContent = 'Lỗi khi giải mã token: ' + e.message;
+            }
+        });
+
+        document.getElementById('btnCheckLocalStorage').addEventListener('click', function() {
+            const user = localStorage.getItem('auth_user');
+            if (!user) {
+                document.getElementById('output').textContent = 'Không tìm thấy thông tin người dùng trong localStorage!';
+                return;
+            }
+            
+            try {
+                document.getElementById('output').textContent = JSON.stringify(JSON.parse(user), null, 2);
+            } catch (e) {
+                document.getElementById('output').textContent = 'Lỗi khi phân tích dữ liệu người dùng: ' + e.message;
+            }
+        });
+
+        document.getElementById('btnCheckThreads').addEventListener('click', async function() {
+            try {
+                const token = localStorage.getItem('auth_token');
+                if (!token) {
+                    document.getElementById('output').textContent = 'Không tìm thấy token trong localStorage!';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:8000/threads', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+                document.getElementById('output').textContent = 'Lỗi khi gọi API: ' + e.message;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -63,12 +63,13 @@ const LeadershipAnalyticsPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership')}>Dashboard</li>
-          <li className="sidebar-menu-item active">Analytics</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/reports')}>Reports</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership')}>Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/departments')}>Theo phòng/khoa</li>
+          <li className="sidebar-menu-item active">Phân tích</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/reports')}>Báo cáo</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       

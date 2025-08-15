@@ -4,7 +4,9 @@ pydantic
 pytest
 python-dotenv
 google-generativeai
-python-jose[cryptography]
-# Ensure compatible bcrypt backend for passlib
-passlib==1.7.4
 python-multipart
+# MySQL support
+SQLAlchemy==2.0.27
+PyMySQL==1.1.0
+cryptography==41.0.7  # For PyMySQL
+alembic==1.13.1  # For database migrations

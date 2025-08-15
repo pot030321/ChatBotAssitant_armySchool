@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import './App.css'
 import LoginPage from './pages/LoginPage.jsx'
 import StudentDashboardPage from './pages/StudentDashboardPage.jsx'
@@ -8,12 +9,15 @@ import DepartmentDashboardPage from './pages/DepartmentDashboardPage.jsx'
 import AssignedTicketsPage from './pages/AssignedTicketsPage.jsx'
 import ResourcesPage from './pages/ResourcesPage.jsx'
 import LeadershipDashboardPage from './pages/LeadershipDashboardPage.jsx'
+import LeadershipDepartmentsPage from './pages/LeadershipDepartmentsPage.jsx'
 import LeadershipAnalyticsPage from './pages/LeadershipAnalyticsPage.jsx'
 import LeadershipReportsPage from './pages/LeadershipReportsPage.jsx'
 import MyQuestionsPage from './pages/MyQuestionsPage.jsx'
 import FAQPage from './pages/FAQPage.jsx'
 import AnalyticsPage from './pages/AnalyticsPage.jsx'
 import AllTicketsPage from './pages/AllTicketsPage.jsx'
+import DepartmentDebugPage from './pages/DepartmentDebugPage.jsx'
+import { validateApiConnection } from './utils/apiHealth'
 
 function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem('auth_token');
@@ -52,7 +56,7 @@ function ProtectedRoute({ children, requiredRole }) {
       }
     }
   } catch (err) {
-    console.error('Error checking user role:', err);
+    console.error('Lỗi khi kiểm tra vai trò người dùng:', err);
   }
   
   // Default fallback
@@ -60,6 +64,68 @@ function ProtectedRoute({ children, requiredRole }) {
 }
 
 function App() {
+  const [apiStatus, setApiStatus] = useState({
+    checking: true,
+    healthy: false,
+    message: 'Checking API connection...'
+  });
+
+  useEffect(() => {
+    // Check API health on component mount
+    const checkApiStatus = async () => {
+      try {
+        const validationResult = await validateApiConnection();
+        
+        setApiStatus({
+          checking: false,
+          healthy: validationResult.success,
+          message: validationResult.message,
+          authError: validationResult.authError
+        });
+        
+        // If auth error, we need to force logout
+        if (validationResult.authError) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+        }
+      } catch (error) {
+        console.error('Không thể xác thực kết nối API:', error);
+        setApiStatus({
+          checking: false,
+          healthy: false,
+          message: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.'
+        });
+      }
+    };
+
+    checkApiStatus();
+  }, []);
+
+  // Display API status if still checking or unhealthy
+  if (apiStatus.checking) {
+    return (
+      <div className="api-status-screen">
+        <div className="api-status-container">
+          <h2>Đang kết nối đến máy chủ...</h2>
+          <p>{apiStatus.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!apiStatus.healthy) {
+    return (
+      <div className="api-status-screen">
+        <div className="api-status-container">
+          <h2>Lỗi Kết Nối</h2>
+          <p>{apiStatus.message}</p>
+          <button onClick={() => window.location.reload()}>Thử Lại</button>
+        </div>
+      </div>
+    );
+  }
+
+  // If API is healthy, render the app
   return (
     <LanguageProvider>
       <BrowserRouter>
@@ -122,9 +188,21 @@ function App() {
           </ProtectedRoute>
         } />
         
+        <Route path="/department/debug" element={
+          <ProtectedRoute requiredRole="department">
+            <DepartmentDebugPage />
+          </ProtectedRoute>
+        } />
+        
         <Route path="/leadership" element={
           <ProtectedRoute requiredRole="leadership">
             <LeadershipDashboardPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/leadership/departments" element={
+          <ProtectedRoute requiredRole="leadership">
+            <LeadershipDepartmentsPage />
           </ProtectedRoute>
         } />
         
@@ -166,7 +244,7 @@ function App() {
                 }
               }
             } catch (err) {
-              console.error('Error routing based on role:', err);
+              console.error('Lỗi khi định tuyến dựa trên vai trò:', err);
             }
             
             return <Navigate to="/login" replace />;

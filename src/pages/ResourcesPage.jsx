@@ -12,64 +12,64 @@ const ResourcesPage = () => {
   const [resources, setResources] = useState([
     {
       id: 1,
-      title: 'Student Support Handbook',
-      description: 'Comprehensive guide for handling student inquiries and issues.',
+      title: 'Sổ tay hỗ trợ học viên',
+      description: 'Hướng dẫn toàn diện về việc xử lý các yêu cầu và vấn đề của học viên.',
       category: 'guidelines',
       documentUrl: '#',
       lastUpdated: '2023-07-15'
     },
     {
       id: 2,
-      title: 'Academic Policies 2023-2024',
-      description: 'Official academic policies for the current academic year.',
+      title: 'Quy định học vụ 2023-2024',
+      description: 'Quy định học vụ chính thức cho năm học hiện tại.',
       category: 'policies',
       documentUrl: '#',
       lastUpdated: '2023-06-01'
     },
     {
       id: 3,
-      title: 'Financial Aid FAQ',
-      description: 'Common questions and answers about financial aid programs.',
+      title: 'Câu hỏi thường gặp về hỗ trợ tài chính',
+      description: 'Các câu hỏi và trả lời phổ biến về các chương trình hỗ trợ tài chính.',
       category: 'faq',
       documentUrl: '#',
       lastUpdated: '2023-07-20'
     },
     {
       id: 4,
-      title: 'IT Systems Access Guide',
-      description: 'Instructions for accessing and using university IT systems.',
+      title: 'Hướng dẫn truy cập hệ thống CNTT',
+      description: 'Hướng dẫn truy cập và sử dụng các hệ thống CNTT của nhà trường.',
       category: 'technical',
       documentUrl: '#',
       lastUpdated: '2023-08-05'
     },
     {
       id: 5,
-      title: 'Course Registration Troubleshooting',
-      description: 'Step-by-step guide to resolve common registration issues.',
+      title: 'Xử lý sự cố đăng ký khóa học',
+      description: 'Hướng dẫn từng bước để giải quyết các vấn đề đăng ký phổ biến.',
       category: 'technical',
       documentUrl: '#',
       lastUpdated: '2023-08-01'
     },
     {
       id: 6,
-      title: 'Disability Accommodation Procedures',
-      description: 'Processes for handling disability accommodation requests.',
+      title: 'Quy trình hỗ trợ người khuyết tật',
+      description: 'Quy trình xử lý các yêu cầu hỗ trợ cho người khuyết tật.',
       category: 'guidelines',
       documentUrl: '#',
       lastUpdated: '2023-05-12'
     },
     {
       id: 7,
-      title: 'Emergency Contact Information',
-      description: 'Important contacts for various emergency situations.',
+      title: 'Thông tin liên hệ khẩn cấp',
+      description: 'Các liên hệ quan trọng cho các tình huống khẩn cấp.',
       category: 'contacts',
       documentUrl: '#',
       lastUpdated: '2023-06-30'
     },
     {
       id: 8,
-      title: 'Department Response Templates',
-      description: 'Standardized response templates for common inquiries.',
+      title: 'Mẫu phản hồi của phòng ban',
+      description: 'Các mẫu phản hồi tiêu chuẩn cho các yêu cầu phổ biến.',
       category: 'templates',
       documentUrl: '#',
       lastUpdated: '2023-07-25'
@@ -78,13 +78,13 @@ const ResourcesPage = () => {
   
   // Resource categories
   const categories = [
-    { id: 'all', name: 'All Resources' },
-    { id: 'guidelines', name: 'Guidelines & Procedures' },
-    { id: 'policies', name: 'Policies' },
-    { id: 'faq', name: 'FAQs' },
-    { id: 'technical', name: 'Technical Guides' },
-    { id: 'contacts', name: 'Contacts & Directory' },
-    { id: 'templates', name: 'Response Templates' }
+    { id: 'all', name: 'Tất cả tài liệu' },
+    { id: 'guidelines', name: 'Hướng dẫn & Quy trình' },
+    { id: 'policies', name: 'Quy định' },
+    { id: 'faq', name: 'Câu hỏi thường gặp' },
+    { id: 'technical', name: 'Hướng dẫn kỹ thuật' },
+    { id: 'contacts', name: 'Liên hệ & Danh bạ' },
+    { id: 'templates', name: 'Mẫu phản hồi' }
   ];
 
   useEffect(() => {
@@ -128,26 +128,26 @@ const ResourcesPage = () => {
   // Handle resource download (mock function)
   const handleDownload = (resource) => {
     // In a real app, this would download the document
-    alert(`Downloading: ${resource.title}`);
+    alert(`Đang tải xuống: ${resource.title}`);
   };
 
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item" onClick={() => navigate('/department')}>Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/department/tickets')}>Assigned Tickets</li>
-          <li className="sidebar-menu-item active">Resources</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/department')}>Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/department/tickets')}>Yêu cầu được phân công</li>
+          <li className="sidebar-menu-item active">Tài liệu</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Department Resources</h1>
+          <h1 className="page-title">Tài liệu phòng ban</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -155,7 +155,7 @@ const ResourcesPage = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Search resources..."
+            placeholder="Tìm kiếm tài liệu..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -163,7 +163,7 @@ const ResourcesPage = () => {
         
         <div className="resources-container">
           <div className="resources-sidebar">
-            <h3>Resource Categories</h3>
+            <h3>Danh mục tài liệu</h3>
             <ul className="category-list">
               {categories.map(category => (
                 <li 
@@ -184,16 +184,16 @@ const ResourcesPage = () => {
             </ul>
             
             <div className="resources-help mt-3">
-              <h4>Need Help?</h4>
-              <p>Contact the support team if you can't find what you're looking for.</p>
-              <button className="btn btn-sm">Contact Support</button>
+              <h4>Cần hỗ trợ?</h4>
+              <p>Liên hệ đội ngũ hỗ trợ nếu bạn không tìm thấy thông tin cần thiết.</p>
+              <button className="btn btn-sm">Liên hệ hỗ trợ</button>
             </div>
           </div>
           
           <div className="resources-content">
             <div className="resources-header">
               <h2>{categories.find(c => c.id === activeCategory)?.name || 'All Resources'}</h2>
-              <span className="resource-count-large">{filteredResources.length} resources available</span>
+              <span className="resource-count-large">{filteredResources.length} tài liệu có sẵn</span>
             </div>
             
             {filteredResources.length > 0 ? (
@@ -208,7 +208,7 @@ const ResourcesPage = () => {
                           {categories.find(c => c.id === resource.category)?.name || resource.category}
                         </span>
                         <span className="resource-updated">
-                          Updated: {resource.lastUpdated}
+                          Cập nhật: {resource.lastUpdated}
                         </span>
                       </div>
                     </div>
@@ -217,10 +217,10 @@ const ResourcesPage = () => {
                         className="btn resource-download"
                         onClick={() => handleDownload(resource)}
                       >
-                        Download
+                        Tải xuống
                       </button>
                       <button className="btn resource-view">
-                        View
+                        Xem
                       </button>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ const ResourcesPage = () => {
               </div>
             ) : (
               <div className="no-resources">
-                <p>No resources found matching your search criteria.</p>
+                <p>Không tìm thấy tài liệu nào phù hợp với tiêu chí tìm kiếm.</p>
                 <button 
                   className="btn"
                   onClick={() => {
@@ -236,7 +236,7 @@ const ResourcesPage = () => {
                     setActiveCategory('all');
                   }}
                 >
-                  Clear Filters
+                  Xóa bộ lọc
                 </button>
               </div>
             )}

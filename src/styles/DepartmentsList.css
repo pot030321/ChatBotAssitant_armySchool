@@ -1,0 +1,58 @@
+.departments-section {
+  margin-top: 20px;
+}
+
+.departments-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.loading-indicator {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Thêm CSS cho responsive */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .department-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .thread-table th:nth-child(3),
+  .thread-table td:nth-child(3),
+  .thread-table th:nth-child(5),
+  .thread-table td:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .thread-table th:nth-child(4),
+  .thread-table td:nth-child(4) {
+    display: none;
+  }
+}

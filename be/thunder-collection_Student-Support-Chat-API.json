@@ -1,0 +1,269 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Student Support Chat API",
+  "dateExported": "2025-08-14T10:00:00.000Z",
+  "version": "1.1",
+  "folders": [
+    {
+      "name": "Auth",
+      "description": "Authentication APIs",
+      "folders": [],
+      "requests": [
+        {
+          "name": "Register User",
+          "url": "http://localhost:8000/auth/register",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"password123\",\n  \"email\": \"student1@example.com\",\n  \"full_name\": \"Student 1\",\n  \"role\": \"student\",\n  \"department\": null\n}"
+          },
+          "description": "Register a new student user"
+        },
+        {
+          "name": "Login",
+          "url": "http://localhost:8000/auth/login",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ],
+          "body": {
+            "type": "formdata",
+            "raw": "",
+            "form": [
+              {
+                "name": "username",
+                "value": "student1"
+              },
+              {
+                "name": "password",
+                "value": "password123"
+              }
+            ]
+          },
+          "description": "Login with username and password"
+        },
+        {
+          "name": "Get Current User",
+          "url": "http://localhost:8000/auth/me",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "Get current user info"
+        }
+      ]
+    },
+    {
+      "name": "Threads",
+      "description": "Thread management APIs",
+      "folders": [],
+      "requests": [
+        {
+          "name": "Create Thread",
+          "url": "http://localhost:8000/threads",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"title\": \"Vấn đề về học phí\",\n  \"department\": \"Phòng tài chính\",\n  \"topic\": \"Học phí\",\n  \"issue_type\": \"question\",\n  \"priority\": \"medium\",\n  \"issue\": \"Tôi muốn hỏi về cách thanh toán học phí học kỳ 1 năm học 2025-2026\"\n}"
+          },
+          "description": "Create a new thread"
+        },
+        {
+          "name": "List Threads",
+          "url": "http://localhost:8000/threads",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "List all threads (filtered by user role)"
+        },
+        {
+          "name": "Get Thread",
+          "url": "http://localhost:8000/threads/{{thread_id}}",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "Get a specific thread by ID"
+        },
+        {
+          "name": "Update Thread",
+          "url": "http://localhost:8000/threads/{{thread_id}}",
+          "method": "PATCH",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"status\": \"in_progress\",\n  \"response\": \"Chúng tôi đang xử lý vấn đề của bạn. Học phí có thể được thanh toán qua ngân hàng hoặc trực tiếp tại văn phòng.\"\n}"
+          },
+          "description": "Update thread status and add a response"
+        },
+        {
+          "name": "Assign Thread",
+          "url": "http://localhost:8000/threads/{{thread_id}}/assign?department=Phòng tài chính",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "Assign a thread to a department (manager only)"
+        },
+        {
+          "name": "Escalate Thread",
+          "url": "http://localhost:8000/threads/{{thread_id}}/escalate",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "Escalate a thread to higher management"
+        },
+        {
+          "name": "Get Thread Statistics",
+          "url": "http://localhost:8000/threads/statistics",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "Get thread statistics (manager or leadership only)"
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "description": "Message management APIs",
+      "folders": [],
+      "requests": [
+        {
+          "name": "List Messages",
+          "url": "http://localhost:8000/threads/{{thread_id}}/messages",
+          "method": "GET",
+          "headers": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "description": "List all messages in a thread"
+        },
+        {
+          "name": "Post Message",
+          "url": "http://localhost:8000/threads/{{thread_id}}/messages",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer {{token}}"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"text\": \"Tôi muốn biết thêm chi tiết về các phương thức thanh toán.\",\n  \"sender\": \"student\"\n}"
+          },
+          "description": "Post a new message in a thread"
+        }
+      ]
+    },
+    {
+      "name": "Department Users",
+      "description": "Sample department users to test with",
+      "folders": [],
+      "requests": [
+        {
+          "name": "Register Department User",
+          "url": "http://localhost:8000/auth/register",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"username\": \"finance_dept\",\n  \"password\": \"password123\",\n  \"email\": \"finance@example.com\",\n  \"full_name\": \"Finance Department\",\n  \"role\": \"department\",\n  \"department\": \"Phòng tài chính\"\n}"
+          },
+          "description": "Register a department user for testing"
+        },
+        {
+          "name": "Register Manager User",
+          "url": "http://localhost:8000/auth/register",
+          "method": "POST",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "type": "json",
+            "raw": "{\n  \"username\": \"manager1\",\n  \"password\": \"password123\",\n  \"email\": \"manager@example.com\",\n  \"full_name\": \"Manager User\",\n  \"role\": \"manager\",\n  \"department\": null\n}"
+          },
+          "description": "Register a manager user for testing"
+        }
+      ]
+    }
+  ],
+  "environments": [
+    {
+      "name": "Local Environment",
+      "variables": [
+        {
+          "name": "token",
+          "value": ""
+        },
+        {
+          "name": "thread_id",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

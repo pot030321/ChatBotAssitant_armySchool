@@ -119,29 +119,29 @@ const FAQPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item" onClick={() => navigate('/student')}>Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/my-questions')}>My Questions</li>
-          <li className="sidebar-menu-item active">FAQ</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/student')}>Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/my-questions')}>Câu hỏi của tôi</li>
+          <li className="sidebar-menu-item active">Câu hỏi thường gặp</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Frequently Asked Questions</h1>
+          <h1 className="page-title">Câu hỏi thường gặp</h1>
         </div>
         
         <div className="card mb-3">
           <div className="card-header">
-            <h2 className="card-title">Search FAQs</h2>
+            <h2 className="card-title">Tìm kiếm câu hỏi</h2>
           </div>
           <div className="faq-search">
             <input
               type="text"
               className="form-control"
-              placeholder="Search for questions or answers..."
+              placeholder="Tìm kiếm câu hỏi hoặc câu trả lời..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -150,7 +150,7 @@ const FAQPage = () => {
         
         <div className="faq-container">
           <div className="faq-sidebar">
-            <h3>Categories</h3>
+            <h3>Danh mục</h3>
             <ul className="category-list">
               {categories.map(category => (
                 <li 
@@ -170,7 +170,7 @@ const FAQPage = () => {
                 <h2 className="card-title">
                   {categories.find(cat => cat.id === activeCategory)?.name || 'Tất cả câu hỏi'}
                 </h2>
-                <span className="faq-count">{filteredFAQs.length} questions</span>
+                <span className="faq-count">{filteredFAQs.length} câu hỏi</span>
               </div>
               
               {filteredFAQs.length > 0 ? (
@@ -196,7 +196,7 @@ const FAQPage = () => {
                 </ul>
               ) : (
                 <div className="text-center p-4">
-                  No FAQs found matching your criteria.
+                  Không tìm thấy câu hỏi nào phù hợp với tiêu chí của bạn.
                 </div>
               )}
             </div>

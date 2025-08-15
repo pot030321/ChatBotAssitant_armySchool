@@ -53,7 +53,7 @@ const AnalyticsPage = () => {
     navigate('/login');
   };
   
-  // Generate random data for demonstration purposes
+    // Generate random data for demonstration purposes
   const generateRandomData = (count, min, max) => {
     return Array.from({ length: count }, () => 
       Math.floor(Math.random() * (max - min + 1)) + min
@@ -66,14 +66,14 @@ const AnalyticsPage = () => {
     let datasets = [];
     
     if (dateRange === 'week') {
-      labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      labels = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
       datasets = [
         {
-          name: 'New Tickets',
+          name: 'Yêu cầu mới',
           data: generateRandomData(7, 1, 15)
         },
         {
-          name: 'Resolved Tickets',
+          name: 'Yêu cầu đã giải quyết',
           data: generateRandomData(7, 1, 10)
         }
       ];
@@ -81,29 +81,27 @@ const AnalyticsPage = () => {
       labels = Array.from({ length: 30 }, (_, i) => `${i+1}`);
       datasets = [
         {
-          name: 'New Tickets',
+          name: 'Yêu cầu mới',
           data: generateRandomData(30, 0, 8)
         },
         {
-          name: 'Resolved Tickets',
+          name: 'Yêu cầu đã giải quyết',
           data: generateRandomData(30, 0, 7)
         }
       ];
     } else {
-      labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      labels = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
       datasets = [
         {
-          name: 'New Tickets',
+          name: 'Yêu cầu mới',
           data: generateRandomData(12, 10, 50)
         },
         {
-          name: 'Resolved Tickets',
+          name: 'Yêu cầu đã giải quyết',
           data: generateRandomData(12, 8, 45)
         }
       ];
-    }
-    
-    return { labels, datasets };
+    }    return { labels, datasets };
   };
   
   const renderSampleChart = () => {
@@ -168,25 +166,25 @@ const AnalyticsPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item" onClick={() => navigate('/manager')}>Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/all-tickets')}>All Tickets</li>
-          <li className="sidebar-menu-item active">Analytics</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/manager')}>Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/all-tickets')}>Tất cả yêu cầu</li>
+          <li className="sidebar-menu-item active">Phân tích</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Analytics Dashboard</h1>
+          <h1 className="page-title">Bảng phân tích</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
         {isLoading ? (
-          <div className="text-center p-4">Loading analytics data...</div>
+          <div className="text-center p-4">Đang tải dữ liệu phân tích...</div>
         ) : error ? (
           <div className="alert alert-danger">
             {error}
@@ -197,28 +195,28 @@ const AnalyticsPage = () => {
               <div className="stats-cards-large">
                 <div className="card stat-card-large total-tickets">
                   <div className="stat-value-large">{analyticsData.totalTickets}</div>
-                  <div className="stat-label-large">Total Tickets</div>
+                  <div className="stat-label-large">Tổng số yêu cầu</div>
                 </div>
                 
                 <div className="card stat-card-large avg-response">
                   <div className="stat-value-large">
-                    {analyticsData.avgResponseTime.toFixed(1)} <span className="unit">min</span>
+                    {analyticsData.avgResponseTime.toFixed(1)} <span className="unit">phút</span>
                   </div>
-                  <div className="stat-label-large">Avg. Response Time</div>
+                  <div className="stat-label-large">Thời gian phản hồi trung bình</div>
                 </div>
                 
                 <div className="card stat-card-large resolution-rate">
                   <div className="stat-value-large">
                     {getPercentage(analyticsData.statusCounts.resolved, analyticsData.totalTickets)}%
                   </div>
-                  <div className="stat-label-large">Resolution Rate</div>
+                  <div className="stat-label-large">Tỷ lệ giải quyết</div>
                 </div>
                 
                 <div className="card stat-card-large unassigned">
                   <div className="stat-value-large">
                     {analyticsData.assignmentCounts.Unassigned || 0}
                   </div>
-                  <div className="stat-label-large">Unassigned Tickets</div>
+                  <div className="stat-label-large">Yêu cầu chưa phân công</div>
                 </div>
               </div>
             </div>
@@ -226,16 +224,16 @@ const AnalyticsPage = () => {
             <div className="row mb-3">
               <div className="card analytics-chart-card">
                 <div className="card-header">
-                  <h2 className="card-title">Ticket Volume Over Time</h2>
+                  <h2 className="card-title">Số lượng yêu cầu theo thời gian</h2>
                   <div className="chart-controls">
                     <select
                       value={dateRange}
                       onChange={(e) => setDateRange(e.target.value)}
                       className="form-control"
                     >
-                      <option value="week">Last 7 days</option>
-                      <option value="month">Last 30 days</option>
-                      <option value="year">Last 12 months</option>
+                      <option value="week">7 ngày qua</option>
+                      <option value="month">30 ngày qua</option>
+                      <option value="year">12 tháng qua</option>
                     </select>
                   </div>
                 </div>
@@ -247,7 +245,7 @@ const AnalyticsPage = () => {
               <div className="col-md-6">
                 <div className="card analytics-data-card">
                   <div className="card-header">
-                    <h2 className="card-title">Ticket Status Distribution</h2>
+                    <h2 className="card-title">Phân bố trạng thái yêu cầu</h2>
                   </div>
                   <div className="data-list status-list">
                     {Object.entries(analyticsData.statusCounts).map(([status, count]) => (
@@ -275,7 +273,7 @@ const AnalyticsPage = () => {
               <div className="col-md-6">
                 <div className="card analytics-data-card">
                   <div className="card-header">
-                    <h2 className="card-title">Ticket Type Distribution</h2>
+                    <h2 className="card-title">Phân bố loại yêu cầu</h2>
                   </div>
                   <div className="data-list type-list">
                     {Object.entries(analyticsData.issueTypeCounts).map(([type, count]) => (
@@ -304,7 +302,7 @@ const AnalyticsPage = () => {
             <div className="row mt-3">
               <div className="card analytics-data-card">
                 <div className="card-header">
-                  <h2 className="card-title">Department Workload</h2>
+                  <h2 className="card-title">Khối lượng công việc theo phòng ban</h2>
                 </div>
                 <div className="data-list assignment-list">
                   {Object.entries(analyticsData.assignmentCounts)

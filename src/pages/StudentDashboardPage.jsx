@@ -51,11 +51,11 @@ const StudentDashboardPage = () => {
       if (data.success) {
         setThreads(data.threads || []);
       } else {
-        throw new Error('Failed to fetch threads');
+        throw new Error('Không thể lấy danh sách câu hỏi');
       }
     } catch (err) {
-      setError('Error loading your threads. Please try again.');
-      console.error('Error fetching threads:', err);
+      setError('Lỗi khi tải danh sách câu hỏi của bạn. Vui lòng thử lại.');
+      console.error('Lỗi khi lấy danh sách thread:', err);
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +65,7 @@ const StudentDashboardPage = () => {
     e.preventDefault();
     
     if (!newThreadTitle.trim()) {
-      setError('Please enter a title for your question');
+      setError('Vui lòng nhập tiêu đề cho câu hỏi của bạn');
       return;
     }
     
@@ -81,7 +81,7 @@ const StudentDashboardPage = () => {
       });
       
       if (!response.success) {
-        throw new Error('Failed to create new thread');
+        throw new Error('Không thể tạo câu hỏi mới');
       }
       
       // Reset form
@@ -92,8 +92,8 @@ const StudentDashboardPage = () => {
       // Refresh threads list
       fetchThreads();
     } catch (err) {
-      setError('Error creating new thread. Please try again.');
-      console.error('Error creating thread:', err);
+      setError('Lỗi khi tạo câu hỏi mới. Vui lòng thử lại.');
+      console.error('Lỗi khi tạo thread:', err);
     } finally {
       setIsCreating(false);
     }
@@ -117,20 +117,20 @@ const StudentDashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item active">Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/my-questions')}>My Questions</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/faq')}>FAQ</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item active">Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/my-questions')}>Câu hỏi của tôi</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/faq')}>Câu hỏi thường gặp</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Student Dashboard</h1>
+          <h1 className="page-title">Bảng điều khiển sinh viên</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -138,7 +138,7 @@ const StudentDashboardPage = () => {
           <div className="left-column">
             <div className="card mb-3" id="thread-form">
               <div className="card-header">
-                <h2 className="card-title">Ask a New Question</h2>
+                <h2 className="card-title">Đặt câu hỏi mới</h2>
               </div>
               
               {error && (
@@ -149,20 +149,20 @@ const StudentDashboardPage = () => {
               
               <form onSubmit={createNewThread}>
                 <div className="form-group">
-                  <label htmlFor="thread-title">Question Title</label>
+                  <label htmlFor="thread-title">Tiêu đề câu hỏi</label>
                   <input
                     type="text"
                     id="thread-title"
                     className="form-control"
                     value={newThreadTitle}
                     onChange={(e) => setNewThreadTitle(e.target.value)}
-                    placeholder="What's your question about?"
+                    placeholder="Câu hỏi của bạn về vấn đề gì?"
                     disabled={isCreating}
                   />
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="thread-type">Question Type</label>
+                  <label htmlFor="thread-type">Loại câu hỏi</label>
                   <select
                     id="thread-type"
                     className="form-control"
@@ -170,21 +170,21 @@ const StudentDashboardPage = () => {
                     onChange={(e) => setNewThreadType(e.target.value)}
                     disabled={isCreating}
                   >
-                    <option value="question">General Question</option>
-                    <option value="technical">Technical Support</option>
-                    <option value="billing">Billing Query</option>
-                    <option value="feedback">Feedback</option>
+                    <option value="question">Câu hỏi chung</option>
+                    <option value="technical">Hỗ trợ kỹ thuật</option>
+                    <option value="billing">Câu hỏi về thanh toán</option>
+                    <option value="feedback">Phản hồi</option>
                   </select>
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="thread-description">Description</label>
+                  <label htmlFor="thread-description">Mô tả</label>
                   <textarea
                     id="thread-description"
                     className="form-control"
                     value={newThreadDescription}
                     onChange={(e) => setNewThreadDescription(e.target.value)}
-                    placeholder="Provide more details about your question"
+                    placeholder="Cung cấp thêm chi tiết về câu hỏi của bạn"
                     rows="4"
                     disabled={isCreating}
                   ></textarea>
@@ -195,18 +195,18 @@ const StudentDashboardPage = () => {
                   className="btn"
                   disabled={isCreating}
                 >
-                  {isCreating ? 'Submitting...' : 'Submit Question'}
+                  {isCreating ? 'Đang gửi...' : 'Gửi câu hỏi'}
                 </button>
               </form>
             </div>
             
             <div className="card">
               <div className="card-header">
-                <h2 className="card-title">My Recent Questions</h2>
+                <h2 className="card-title">Câu hỏi gần đây của tôi</h2>
               </div>
               
               {isLoading ? (
-                <div className="text-center p-4">Loading...</div>
+                <div className="text-center p-4">Đang tải...</div>
               ) : threads.length > 0 ? (
                 <ul className="thread-list">
                   {threads.map(thread => (
@@ -222,7 +222,7 @@ const StudentDashboardPage = () => {
                           thread.status === 'escalated' ? 'Đã chuyển cấp' : thread.status
                         }</span>
                         <span className="thread-date">
-                          Created: {new Date(thread.created_at).toLocaleDateString()}
+                          Ngày tạo: {new Date(thread.created_at).toLocaleDateString()}
                         </span>
                       </div>
                       {thread.description && (
@@ -236,14 +236,14 @@ const StudentDashboardPage = () => {
                         className="btn btn-secondary btn-sm"
                         onClick={() => setSelectedThreadId(thread.id)}
                       >
-                        View Details
+                        Xem chi tiết
                       </button>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <div className="text-center p-4">
-                  You haven't submitted any questions yet.
+                  Bạn chưa gửi câu hỏi nào.
                 </div>
               )}
             </div>
@@ -252,7 +252,7 @@ const StudentDashboardPage = () => {
           <div className="right-column">
             <div className="card chatbox-card">
               <div className="card-header">
-                <h2 className="card-title">Virtual Assistant</h2>
+                <h2 className="card-title">Trợ lý ảo</h2>
               </div>
               <ChatBox onCreateTicket={handleChatbotTicketCreation} />
             </div>

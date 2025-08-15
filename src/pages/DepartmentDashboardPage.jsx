@@ -12,7 +12,7 @@ const getUserInfo = () => {
       return JSON.parse(userStr);
     }
   } catch (error) {
-    console.error('Error parsing user data:', error);
+    console.error('Lỗi khi phân tích dữ liệu người dùng:', error);
   }
   return null;
 };
@@ -48,16 +48,36 @@ const DepartmentDashboardPage = () => {
     setError('');
     
     try {
+      // Log thông tin người dùng để debug
+      const userData = getUserInfo();
+      if (userData) {
+        console.log('[DepartmentDashboard] Current user department:', userData.department);
+      }
+      
       const response = await getAssignedThreads();
       
       if (response.success) {
+        console.log(`[DepartmentDashboard] Received ${response.threads ? response.threads.length : 0} assigned threads`);
+        if (response.threads && response.threads.length > 0) {
+          // Log chi tiết thread đầu tiên để debug
+          console.log('[DepartmentDashboard] First assigned thread:', {
+            id: response.threads[0].id,
+            title: response.threads[0].title,
+            assigned_to: response.threads[0].assigned_to,
+            status: response.threads[0].status
+          });
+        } else {
+          console.log('[DepartmentDashboard] No assigned threads found');
+        }
+        
         setThreads(response.threads || []);
       } else {
-        throw new Error('Failed to fetch assigned threads');
+        console.error('[DepartmentDashboard] Failed to fetch assigned threads:', response.error);
+        throw new Error('Không thể lấy danh sách yêu cầu được phân công');
       }
     } catch (err) {
-      setError('Error loading assigned tickets. Please try again.');
-      console.error('Error fetching threads:', err);
+      setError('Lỗi khi tải danh sách yêu cầu được phân công. Vui lòng thử lại.');
+      console.error('[DepartmentDashboard] Lỗi khi lấy danh sách yêu cầu:', err);
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +92,7 @@ const DepartmentDashboardPage = () => {
     e.preventDefault();
     
     if (!selectedThread || !responseText.trim()) {
-      setError('Please enter a response');
+      setError('Vui lòng nhập phản hồi');
       return;
     }
     
@@ -88,7 +108,7 @@ const DepartmentDashboardPage = () => {
       });
       
       if (!messageResponse.success) {
-        throw new Error('Failed to submit response');
+        throw new Error('Không thể gửi phản hồi');
       }
       
       // Update thread status to in_progress if not already
@@ -101,8 +121,8 @@ const DepartmentDashboardPage = () => {
       setResponseText('');
       fetchThreads();
     } catch (err) {
-      setError('Error submitting response. Please try again.');
-      console.error('Error submitting response:', err);
+      setError('Lỗi khi gửi phản hồi. Vui lòng thử lại.');
+      console.error('Lỗi khi gửi phản hồi:', err);
     } finally {
       setIsResponding(false);
     }
@@ -113,13 +133,13 @@ const DepartmentDashboardPage = () => {
       const response = await updateThreadStatus(threadId, 'resolved');
       
       if (!response.success) {
-        throw new Error('Failed to mark as resolved');
+        throw new Error('Không thể đánh dấu đã giải quyết');
       }
       
       fetchThreads();
     } catch (err) {
-      setError('Error updating ticket status. Please try again.');
-      console.error('Error marking thread as resolved:', err);
+      setError('Lỗi khi cập nhật trạng thái yêu cầu. Vui lòng thử lại.');
+      console.error('Lỗi khi đánh dấu yêu cầu đã giải quyết:', err);
     }
   };
   
@@ -132,20 +152,21 @@ const DepartmentDashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item active">Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/department/tickets')}>Assigned Tickets</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/department/resources')}>Resources</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item active">Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/department/tickets')}>Yêu cầu được phân công</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/department/resources')}>Tài nguyên</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/department/debug')}>Debug Tools</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Department Dashboard</h1>
+          <h1 className="page-title">Bảng điều khiển phòng ban</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -153,15 +174,15 @@ const DepartmentDashboardPage = () => {
           <div className="stats-cards d-flex mb-3">
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'assigned').length}</div>
-              <div className="stat-label">New Assignments</div>
+              <div className="stat-label">Phân công mới</div>
             </div>
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'in_progress').length}</div>
-              <div className="stat-label">In Progress</div>
+              <div className="stat-label">Đang xử lý</div>
             </div>
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'resolved').length}</div>
-              <div className="stat-label">Resolved</div>
+              <div className="stat-label">Đã giải quyết</div>
             </div>
           </div>
           
@@ -174,22 +195,22 @@ const DepartmentDashboardPage = () => {
           {selectedThread && (
             <div className="card mb-3">
               <div className="card-header">
-                <h2 className="card-title">Respond to Ticket</h2>
+                <h2 className="card-title">Phản hồi yêu cầu</h2>
               </div>
               <div className="card-body">
-                <p><strong>Title:</strong> {selectedThread.title}</p>
-                <p><strong>Type:</strong> {selectedThread.issue_type}</p>
-                <p><strong>Description:</strong> {selectedThread.description || 'No description provided'}</p>
+                <p><strong>Tiêu đề:</strong> {selectedThread.title}</p>
+                <p><strong>Loại:</strong> {selectedThread.issue_type}</p>
+                <p><strong>Mô tả:</strong> {selectedThread.description || 'Không có mô tả'}</p>
                 
                 <form onSubmit={handleResponseSubmit}>
                   <div className="form-group">
-                    <label htmlFor="response">Your Response:</label>
+                    <label htmlFor="response">Phản hồi của bạn:</label>
                     <textarea
                       id="response"
                       className="form-control"
                       value={responseText}
                       onChange={(e) => setResponseText(e.target.value)}
-                      placeholder="Type your response here..."
+                      placeholder="Nhập phản hồi của bạn tại đây..."
                       rows="4"
                       disabled={isResponding}
                     ></textarea>
@@ -201,7 +222,7 @@ const DepartmentDashboardPage = () => {
                       className="btn"
                       disabled={isResponding}
                     >
-                      {isResponding ? 'Sending...' : 'Send Response'}
+                      {isResponding ? 'Đang gửi...' : 'Gửi phản hồi'}
                     </button>
                     <button 
                       type="button" 
@@ -209,7 +230,7 @@ const DepartmentDashboardPage = () => {
                       onClick={() => setSelectedThread(null)}
                       disabled={isResponding}
                     >
-                      Cancel
+                      Hủy
                     </button>
                   </div>
                 </form>
@@ -219,21 +240,21 @@ const DepartmentDashboardPage = () => {
           
           <div className="card">
             <div className="card-header">
-              <h2 className="card-title">Assigned Tickets</h2>
+              <h2 className="card-title">Yêu cầu được phân công</h2>
             </div>
             
             {isLoading ? (
-              <div className="text-center p-4">Loading...</div>
+              <div className="text-center p-4">Đang tải...</div>
             ) : threads.length > 0 ? (
               <table className="table">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Actions</th>
+                    <th>Tiêu đề</th>
+                    <th>Loại</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành động</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -257,20 +278,20 @@ const DepartmentDashboardPage = () => {
                           className="btn btn-sm"
                           onClick={() => setSelectedThreadId(thread.id)}
                         >
-                          View Details
+                          Xem chi tiết
                         </button>
                         <button 
                           className="btn btn-sm ms-2"
                           onClick={() => handleRespondClick(thread)}
                         >
-                          Quick Respond
+                          Phản hồi nhanh
                         </button>
                         {(thread.status === 'in_progress' || thread.status === 'assigned') && (
                           <button 
                             className="btn btn-success btn-sm ms-2"
                             onClick={() => handleMarkResolved(thread.id)}
                           >
-                            Mark Resolved
+                            Đánh dấu đã giải quyết
                           </button>
                         )}
                       </td>
@@ -280,7 +301,7 @@ const DepartmentDashboardPage = () => {
               </table>
             ) : (
               <div className="text-center p-4">
-                No assigned tickets found.
+                Không tìm thấy yêu cầu nào được phân công.
               </div>
             )}
           </div>

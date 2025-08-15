@@ -25,6 +25,7 @@ const ThreadDetail = ({
   useEffect(() => {
     if (!threadId) return;
     
+    console.log('ThreadDetail mounted with threadId:', threadId);
     fetchThreadDetail();
   }, [threadId]);
   
@@ -33,20 +34,27 @@ const ThreadDetail = ({
     setError('');
     
     try {
-      // Using mock service instead of real API
+      console.log("Fetching thread detail for ID:", threadId);
+      
+      // Using the thread service to fetch thread details
       const threadData = await getThreadById(threadId);
+      console.log("Thread data response:", threadData);
       
       if (!threadData.success) {
-        throw new Error('Failed to fetch thread details');
+        console.error("Thread fetch unsuccessful:", threadData.error);
+        throw new Error(threadData.error || 'Failed to fetch thread details');
       }
       
       setThread(threadData);
       
       // Fetch thread messages
+      console.log("Fetching messages for thread:", threadId);
       const messagesData = await getThreadMessages(threadId);
+      console.log("Messages data response:", messagesData);
       
       if (!messagesData.success) {
-        throw new Error('Failed to fetch thread messages');
+        console.error("Messages fetch unsuccessful:", messagesData.error);
+        throw new Error(messagesData.error || 'Failed to fetch thread messages');
       }
       
       setMessages(messagesData.messages || []);

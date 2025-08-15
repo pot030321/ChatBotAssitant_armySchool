@@ -1,29 +1,69 @@
-/* Login Page Styles */
+/* Login Page Styles - Enhanced version */
 
-.auth-container {
+.login-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%); /* Thay đổi sang màu xanh lá quân đội */
   padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.auth-form {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.login-content {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 420px;
-  padding: 30px;
+  max-width: 900px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
-.auth-title {
-  font-size: 24px;
+.login-logo {
+  background: linear-gradient(135deg, #2e7d32 0%, #1a472a 100%); /* Thay đổi sang màu xanh lá quân đội */
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.login-logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.login-logo p {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.login-box {
+  padding: 40px;
+  max-width: 100%;
+}
+
+.login-title {
+  font-size: 26px;
   font-weight: 600;
   margin-bottom: 24px;
-  color: #333;
+  color: #1a472a; /* Màu xanh lá quân đội */
   text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.login-title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #1a472a, #2e7d32); /* Màu xanh lá quân đội */
 }
 
 .form-group {
@@ -32,56 +72,78 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-weight: 500;
-  color: #555;
+  color: #455a64;
+  font-size: 15px;
 }
 
 .form-control {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.2s;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  color: #333; /* Đảm bảo văn bản nhập vào có màu đen */
 }
 
 .form-control:focus {
-  border-color: #4a6cf7;
+  border-color: #2e7d32; /* Màu xanh lá quân đội */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1); /* Màu xanh lá quân đội */
+  background-color: #fff;
 }
 
-.btn {
+.login-btn {
   display: inline-block;
-  background-color: #4a6cf7;
+  background: linear-gradient(135deg, #1a472a 0%, #2e7d32 100%); /* Màu xanh lá quân đội */
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 12px 18px;
+  border-radius: 6px;
+  padding: 14px 24px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2); /* Màu xanh lá quân đội */
 }
 
-.btn:hover {
-  background-color: #3a5be9;
+.login-btn:hover {
+  background: linear-gradient(135deg, #0d3818 0%, #1b5e20 100%); /* Màu xanh lá đậm hơn */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3); /* Màu xanh lá quân đội */
 }
 
-.btn:disabled {
-  background-color: #a7b3e9;
+.login-btn:disabled {
+  background: linear-gradient(135deg, #a5c2a8 0%, #83b888 100%); /* Màu xanh lá nhạt hơn */
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.w-full {
+.back-btn {
+  background-color: #f5f5f5;
+  color: #455a64;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
   width: 100%;
 }
 
 .alert {
-  padding: 12px 16px;
-  border-radius: 4px;
-  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
 
 .alert-danger {
@@ -94,20 +156,118 @@
   margin-bottom: 16px;
 }
 
+/* Login options */
+.login-options {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.register-link {
+  background: none;
+  border: none;
+  color: #2e7d32; /* Màu xanh lá quân đội */
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.register-link:hover {
+  color: #1a472a; /* Màu xanh lá đậm hơn */
+}
+
+.register-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* Demo information section */
 .login-help {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.login-help h3 {
+  font-size: 18px;
+  color: #1a472a; /* Màu xanh lá quân đội */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.demo-accounts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .login-content {
+    max-width: 95%;
+  }
+  
+  .login-box {
+    padding: 25px;
+  }
+  
+  .demo-accounts {
+    grid-template-columns: 1fr;
+  }
+  
+  .login-logo h1 {
+    font-size: 24px;
+  }
+}
+
+/* Animation effects */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-box {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.login-logo h1 {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.account-card {
+  background-color: #f5faf6; /* Nền xanh lá nhạt */
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #e1f0e3; /* Viền xanh lá nhạt */
+  transition: all 0.3s ease;
+}
+
+.account-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+  border-color: #c5e1c8; /* Viền xanh lá khi hover */
+}
+
+.account-type {
+  font-weight: 600;
+  color: #1a472a; /* Màu xanh lá quân đội */
+  margin-bottom: 10px;
+  font-size: 16px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #c5e1c8; /* Viền xanh lá đậm dashed */
+}
+
+.account-credentials {
   font-size: 14px;
-  color: #666;
-}
-
-.login-help ul {
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-.login-help li {
-  margin-bottom: 8px;
+  color: #455a64;
+  line-height: 1.6;
 }

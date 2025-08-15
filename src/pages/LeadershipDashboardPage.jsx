@@ -13,7 +13,7 @@ const getUserInfo = () => {
       return JSON.parse(userStr);
     }
   } catch (error) {
-    console.error('Error parsing user data:', error);
+    console.error('Lỗi khi phân tích dữ liệu người dùng:', error);
   }
   return null;
 };
@@ -114,20 +114,21 @@ const LeadershipDashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item active">Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/analytics')}>Analytics</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/reports')}>Reports</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item active">Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/departments')}>Theo phòng/khoa</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/analytics')}>Phân tích</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/leadership/reports')}>Báo cáo</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Leadership Dashboard</h1>
+          <h1 className="page-title">Bảng điều khiển lãnh đạo</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -141,34 +142,34 @@ const LeadershipDashboardPage = () => {
           <div className="stats-overview mb-4">
             <div className="card">
               <div className="card-header">
-                <h2 className="card-title">Support Overview</h2>
+                <h2 className="card-title">Tổng quan hỗ trợ</h2>
               </div>
               <div className="stats-grid">
                 <div className="stat-item">
                   <div className="stat-value">{stats.total}</div>
-                  <div className="stat-label">Total Tickets</div>
+                  <div className="stat-label">Tổng số yêu cầu</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">{stats.new}</div>
-                  <div className="stat-label">New</div>
+                  <div className="stat-label">Mới</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">{stats.assigned}</div>
-                  <div className="stat-label">Assigned</div>
+                  <div className="stat-label">Đã phân công</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">{stats.in_progress}</div>
-                  <div className="stat-label">In Progress</div>
+                  <div className="stat-label">Đang xử lý</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">{stats.resolved}</div>
-                  <div className="stat-label">Resolved</div>
+                  <div className="stat-label">Đã giải quyết</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-value">
                     {stats.total > 0 ? Math.round((stats.resolved / stats.total) * 100) : 0}%
                   </div>
-                  <div className="stat-label">Resolution Rate</div>
+                  <div className="stat-label">Tỷ lệ giải quyết</div>
                 </div>
               </div>
             </div>
@@ -178,7 +179,7 @@ const LeadershipDashboardPage = () => {
             <div className="col-md-6">
               <div className="card">
                 <div className="card-header">
-                  <h2 className="card-title">Department Workload</h2>
+                  <h2 className="card-title">Khối lượng công việc theo phòng ban</h2>
                 </div>
                 <div className="card-body">
                   {Object.keys(stats.by_department).length > 0 ? (
@@ -186,7 +187,7 @@ const LeadershipDashboardPage = () => {
                       {Object.entries(stats.by_department).map(([dept, count]) => (
                         <li key={dept} className="dept-stat-item">
                           <span className="dept-name">{dept}</span>
-                          <span className="dept-count">{count} tickets</span>
+                          <span className="dept-count">{count} yêu cầu</span>
                           <div className="progress-bar">
                             <div 
                               className="progress" 
@@ -197,7 +198,7 @@ const LeadershipDashboardPage = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No departments have assigned tickets yet.</p>
+                    <p>Chưa có phòng ban nào được phân công yêu cầu.</p>
                   )}
                 </div>
               </div>
@@ -206,7 +207,7 @@ const LeadershipDashboardPage = () => {
             <div className="col-md-6">
               <div className="card">
                 <div className="card-header">
-                  <h2 className="card-title">Issue Types</h2>
+                  <h2 className="card-title">Loại yêu cầu</h2>
                 </div>
                 <div className="card-body">
                   {threads.length > 0 ? (
@@ -220,8 +221,14 @@ const LeadershipDashboardPage = () => {
                         }, {})
                       ).map(([type, count]) => (
                         <li key={type} className="issue-stat-item">
-                          <span className="issue-type">{type}</span>
-                          <span className="issue-count">{count} tickets</span>
+                          <span className="issue-type">
+                            {type === 'question' ? 'Câu hỏi chung' :
+                             type === 'technical' ? 'Hỗ trợ kỹ thuật' :
+                             type === 'billing' ? 'Câu hỏi về thanh toán' :
+                             type === 'feedback' ? 'Phản hồi' :
+                             type === 'unknown' ? 'Không xác định' : type}
+                          </span>
+                          <span className="issue-count">{count} yêu cầu</span>
                           <div className="progress-bar">
                             <div 
                               className="progress" 
@@ -232,7 +239,7 @@ const LeadershipDashboardPage = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No ticket data available.</p>
+                    <p>Không có dữ liệu yêu cầu nào.</p>
                   )}
                 </div>
               </div>
@@ -241,25 +248,25 @@ const LeadershipDashboardPage = () => {
           
           <div className="card">
             <div className="card-header d-flex justify-between align-center">
-              <h2 className="card-title">Recent Tickets</h2>
+              <h2 className="card-title">Yêu cầu gần đây</h2>
               <div className="card-actions">
-                <button className="btn btn-sm">Export Report</button>
+                <button className="btn btn-sm">Xuất báo cáo</button>
               </div>
             </div>
             
             {isLoading ? (
-              <div className="text-center p-4">Loading...</div>
+              <div className="text-center p-4">Đang tải...</div>
             ) : threads.length > 0 ? (
               <table className="table">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Department</th>
-                    <th>Response Time</th>
+                    <th>Tiêu đề</th>
+                    <th>Loại</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Phòng ban</th>
+                    <th>Thời gian phản hồi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -274,19 +281,30 @@ const LeadershipDashboardPage = () => {
                           {thread.title}
                         </a>
                       </td>
-                      <td>{thread.issue_type}</td>
+                      <td>
+                        {thread.issue_type === 'question' ? 'Câu hỏi chung' :
+                         thread.issue_type === 'technical' ? 'Hỗ trợ kỹ thuật' :
+                         thread.issue_type === 'billing' ? 'Câu hỏi về thanh toán' :
+                         thread.issue_type === 'feedback' ? 'Phản hồi' :
+                         thread.issue_type === 'unknown' ? 'Không xác định' : thread.issue_type}
+                      </td>
                       <td>
                         <span className={`status-badge status-${thread.status}`}>
-                          {thread.status}
+                          {thread.status === 'Open' ? 'Đang mở' :
+                           thread.status === 'Assigned' ? 'Đã phân công' :
+                           thread.status === 'InProgress' ? 'Đang xử lý' :
+                           thread.status === 'Resolved' ? 'Đã giải quyết' :
+                           thread.status === 'Closed' ? 'Đã đóng' :
+                           thread.status === 'new' ? 'Mới' : thread.status}
                         </span>
                       </td>
                       <td>{new Date(thread.created_at).toLocaleDateString()}</td>
-                      <td>{thread.assigned_to || 'Unassigned'}</td>
+                      <td>{thread.assigned_to || 'Chưa phân công'}</td>
                       <td>
                         {thread.first_response_time 
-                          ? `${thread.first_response_time} hrs` 
+                          ? `${thread.first_response_time} giờ` 
                           : thread.status === 'new' 
-                            ? 'Awaiting' 
+                            ? 'Đang chờ' 
                             : 'N/A'}
                       </td>
                     </tr>
@@ -295,7 +313,7 @@ const LeadershipDashboardPage = () => {
               </table>
             ) : (
               <div className="text-center p-4">
-                No ticket data available.
+                Không có dữ liệu yêu cầu nào.
               </div>
             )}
           </div>

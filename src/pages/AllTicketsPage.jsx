@@ -16,8 +16,8 @@ const AllTicketsPage = () => {
   const [assignmentDept, setAssignmentDept] = useState('');
   const [isAssigning, setIsAssigning] = useState(false);
   const [departments, setDepartments] = useState([
-    'Academic Affairs', 'Student Services', 'IT Department', 
-    'Finance Office', 'Library', 'Admissions'
+    'Phòng Đào tạo', 'QLSV', 'CNTT', 
+    'Phòng Tài chính', 'Thư viện', 'Phòng Tuyển sinh'
   ]);
   
   // Filter states
@@ -96,7 +96,7 @@ const AllTicketsPage = () => {
     e.preventDefault();
     
     if (!selectedThread || !assignmentDept) {
-      setError('Please select a department');
+      setError('Vui lòng chọn phòng ban');
       return;
     }
     
@@ -243,7 +243,7 @@ const AllTicketsPage = () => {
                 
                 <form onSubmit={handleAssignSubmit}>
                   <div className="form-group">
-                    <label htmlFor="department">Assign to Department:</label>
+                    <label htmlFor="department">Phân công cho phòng ban:</label>
                     <select
                       id="department"
                       className="form-control"
@@ -251,7 +251,7 @@ const AllTicketsPage = () => {
                       onChange={(e) => setAssignmentDept(e.target.value)}
                       disabled={isAssigning}
                     >
-                      <option value="">-- Select Department --</option>
+                      <option value="">-- Chọn Phòng ban --</option>
                       {departments.map((dept, index) => (
                         <option key={index} value={dept}>{dept}</option>
                       ))}
@@ -324,7 +324,7 @@ const AllTicketsPage = () => {
               </div>
               
               <div className="filter-group">
-                <label htmlFor="department-filter">Department:</label>
+                <label htmlFor="department-filter">Phòng ban:</label>
                 <select 
                   id="department-filter" 
                   className="form-control"
@@ -333,8 +333,8 @@ const AllTicketsPage = () => {
                 >
                   {departmentOptions.map(dept => (
                     <option key={dept} value={dept}>
-                      {dept === 'all' ? 'All Departments' : 
-                       dept === 'unassigned' ? 'Unassigned' : dept}
+                      {dept === 'all' ? 'Tất cả phòng ban' : 
+                       dept === 'unassigned' ? 'Chưa phân công' : dept}
                     </option>
                   ))}
                 </select>
@@ -466,7 +466,7 @@ const AllTicketsPage = () => {
                             </span>
                           </td>
                           <td>{new Date(thread.created_at).toLocaleDateString()}</td>
-                          <td>{thread.assigned_to || 'Unassigned'}</td>
+                          <td>{thread.assigned_to || 'Chưa phân công'}</td>
                           <td>
                             <div className="action-buttons">
                               <button 

@@ -1,40 +1,8 @@
-# University Support Portal Demo
+# Cổng Hỗ Trợ Sinh Viên
 
-Đây là một ứng dụng mẫu về cổng hỗ trợ sinh viên đại học với các vai trò người dùng khác nhau.
+## Giới thiệu
 
-## Tính năng chính
-
-- **Đăng nhập**: Hệ thống xác thực với nhiều vai trò
-- **Tạo yêu cầu hỗ trợ**: Sinh viên có thể tạo yêu cầu hỗ trợ mới
-- **Giao tiếp**: Trao đổi tin nhắn giữa người dùng và nhân viên hỗ trợ
-- **Quản lý phiếu hỗ trợ**: Phân công, theo dõi và giải quyết các vấn đề
-- **Phân tích**: Báo cáo và thống kê về các phiếu hỗ trợ
-
-## Các vai trò người dùng
-
-### Sinh viên
-- Xem dashboard cá nhân
-- Tạo yêu cầu hỗ trợ mới
-- Theo dõi trạng thái của các yêu cầu
-- Trả lời tin nhắn từ nhân viên hỗ trợ
-
-### Quản lý
-- Xem tất cả các yêu cầu hỗ trợ
-- Phân công yêu cầu cho các phòng ban
-- Thiết lập mức ưu tiên
-- Theo dõi tình trạng xử lý
-- Xem thống kê và báo cáo
-
-### Phòng ban
-- Xem các yêu cầu được phân công
-- Trả lời và xử lý yêu cầu
-- Cập nhật trạng thái xử lý
-- Đánh dấu yêu cầu đã được giải quyết
-
-### Lãnh đạo
-- Xem tổng quan về tình hình hỗ trợ
-- Theo dõi hiệu suất của các phòng ban
-- Truy cập báo cáo phân tích
+Ứng dụng hỗ trợ sinh viên với tích hợp AI, cho phép sinh viên đặt câu hỏi, nhận phản hồi từ phòng/khoa và theo dõi quá trình giải quyết.
 
 ## Tài khoản demo
 
@@ -47,22 +15,69 @@
 | Phòng Đào tạo | academic | 123456 |
 | Lãnh đạo | leadership | 123456 |
 
-## Luồng làm việc điển hình
+## Cài đặt và chạy
 
-1. Sinh viên tạo yêu cầu hỗ trợ
-2. Quản lý xem xét và phân công cho phòng ban phù hợp
-3. Nhân viên phòng ban nhận yêu cầu và bắt đầu xử lý
-4. Nhân viên trả lời và trao đổi với sinh viên
-5. Khi vấn đề được giải quyết, nhân viên đánh dấu yêu cầu là "đã giải quyết"
-6. Quản lý và lãnh đạo có thể theo dõi toàn bộ quá trình này thông qua các báo cáo
+### Backend
 
-## Cấu trúc dự án
+```bash
+# 1. Vào thư mục backend
+cd be
 
-- `/src/pages`: Các trang của ứng dụng theo vai trò
-- `/src/components`: Các thành phần UI tái sử dụng
-- `/src/utils`: Các dịch vụ và tiện ích
-- `/src/styles`: File CSS và styling
+# 2. Tạo và kích hoạt môi trường ảo
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/Mac
 
-## Lưu ý kỹ thuật
+# 3. Cài đặt các gói phụ thuộc
+pip install -r requirements.txt
 
-Dự án này sử dụng mock data và các hàm mô phỏng API thay vì gọi backend thật, để đơn giản hóa quá trình demo và phát triển.
+# 4. Chạy server
+uvicorn app.main:app --reload
+```
+
+### Frontend
+
+```bash
+# 1. Cài đặt dependencies
+npm install
+
+# 2. Chạy ứng dụng
+npm run dev
+```
+
+## Quy trình sử dụng
+
+1. **Sinh viên** đăng nhập và gửi câu hỏi
+2. **Quản lý** phân công cho phòng/khoa phù hợp
+3. **Phòng/khoa** trả lời và xử lý yêu cầu
+4. **Lãnh đạo** theo dõi thống kê và hiệu suất
+
+## Các chức năng chính
+
+### Sinh viên
+- Đặt câu hỏi mới
+- Xem lịch sử câu hỏi
+- Xem FAQ
+
+### Phòng/khoa
+- Xem yêu cầu được phân công
+- Trả lời và cập nhật trạng thái
+
+### Quản lý
+- Phân công yêu cầu
+- Xem thống kê
+
+### Lãnh đạo
+- Bảng điều khiển tổng quan
+- Xem theo phòng/khoa
+- Báo cáo và phân tích
+
+## Xử lý lỗi API
+
+Một số API có thể chưa hoàn thiện, hệ thống sử dụng mock data để đảm bảo UI hoạt động:
+- `/threads/{id}/messages`: Trả về 422 Unprocessable Entity
+- `/threads/statistics`: Trả về 404 Not Found
+
+## Liên hệ
+
+Liên hệ qua email hoặc GitHub để được hỗ trợ.

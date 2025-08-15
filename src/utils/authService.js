@@ -1,89 +1,69 @@
-// Mock service for authentication operations
-
-// Mock user data
-const mockUsers = [
-  {
-    id: 1,
-    username: 'student1',
-    password: '123456',
-    name: 'John Smith',
-    role: 'student',
-    student_id: 'STU001',
-    email: 'john.smith@university.edu'
-  },
-  {
-    id: 2,
-    username: 'manager',
-    password: '123456',
-    name: 'David Johnson',
-    role: 'manager',
-    email: 'david.johnson@university.edu'
-  },
-  {
-    id: 3,
-    username: 'cntt',
-    password: '123456',
-    name: 'IT Support Team',
-    role: 'department',
-    department: 'IT Department',
-    email: 'it.support@university.edu'
-  },
-  {
-    id: 4,
-    username: 'finance',
-    password: '123456',
-    name: 'Finance Office',
-    role: 'department',
-    department: 'Finance Office',
-    email: 'finance@university.edu'
-  },
-  {
-    id: 5,
-    username: 'academic',
-    password: '123456',
-    name: 'Academic Affairs',
-    role: 'department',
-    department: 'Academic Affairs',
-    email: 'academic@university.edu'
-  },
-  {
-    id: 6,
-    username: 'leadership',
-    password: '123456',
-    name: 'University Leadership',
-    role: 'leadership',
-    email: 'leadership@university.edu'
-  }
-];
+// Authentication service to interact with the backend API
+import { loginRequest, apiRequest } from './api';
 
 // Login function
 export const login = async (username, password) => {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  // Find user
-  const user = mockUsers.find(u => u.username === username && u.password === password);
-  
-  if (!user) {
+  try {
+    // Call the real login API
+    const response = await loginRequest(username, password);
+    
+    // Store token in localStorage for future requests
+    if (response.access_token) {
+      localStorage.setItem('auth_token', response.access_token);
+    }
+    
+    // Extract user data
+    const userData = response.user || {};
+    
+    // Store user data separately
+    if (userData) {
+      localStorage.setItem('auth_user', JSON.stringify(userData));
+    }
+    
+    return {
+      success: true,
+      access_token: response.access_token,
+      user: userData
+    };
+  } catch (error) {
+    console.error('Đăng nhập thất bại:', error);
     return {
       success: false,
-      error: 'Invalid username or password'
+      error: error.message || 'Tên đăng nhập hoặc mật khẩu không đúng'
     };
   }
-  
-  // Create a copy of user without password
-  const { password: _, ...userWithoutPassword } = user;
-  
-  // Create mock token
-  const token = 'mock_token_' + Math.random().toString(36).substr(2, 9);
+};
+
+// Get current user info
+export const getCurrentUser = async () => {
+  try {
+    const response = await apiRequest('/auth/me');
+    return {
+      success: true,
+      user: response.user
+    };
+  } catch (error) {
+    console.error('Không thể lấy thông tin người dùng:', error);
+    return {
+      success: false,
+      error: error.message || 'Không thể lấy thông tin người dùng'
+    };
+  }
+};
+
+// Logout function
+export const logout = () => {
+  // Clear stored auth data
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('auth_user');
   
   return {
-    success: true,
-    access_token: token,
-    user: userWithoutPassword
+    success: true
   };
 };
 
 export default {
-  login
+  login,
+  logout,
+  getCurrentUser
 };

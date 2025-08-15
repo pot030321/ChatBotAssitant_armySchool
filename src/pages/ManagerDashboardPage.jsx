@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ThreadDetail from '../components/ThreadDetail';
 import { getManagerThreads, assignThread, updateThreadPriority } from '../utils/threadService';
+import { getAllDepartments } from '../utils/departmentService';
 import '../components/ThreadDetail.css';
 
 const ManagerDashboardPage = () => {
@@ -15,10 +16,8 @@ const ManagerDashboardPage = () => {
   const [selectedThread, setSelectedThread] = useState(null);
   const [assignmentDept, setAssignmentDept] = useState('');
   const [isAssigning, setIsAssigning] = useState(false);
-  const [departments, setDepartments] = useState([
-    'Academic Affairs', 'Student Services', 'IT Department', 
-    'Finance Office', 'Library', 'Admissions'
-  ]);
+  const [departments, setDepartments] = useState([]);
+  const [isLoadingDepartments, setIsLoadingDepartments] = useState(false);
   
   // Filter states
   const [statusFilter, setStatusFilter] = useState('all');
@@ -38,13 +37,36 @@ const ManagerDashboardPage = () => {
         const userData = JSON.parse(userStr);
         setUser(userData);
       } catch (err) {
-        console.error('Error parsing user data', err);
+        console.error('Lỗi khi phân tích dữ liệu người dùng', err);
       }
     }
     
     // Fetch threads for manager
     fetchThreads();
+    
+    // Fetch departments from API
+    fetchDepartments();
   }, []);
+  
+  const fetchDepartments = async () => {
+    setIsLoadingDepartments(true);
+    
+    try {
+      const response = await getAllDepartments();
+      
+      if (response.success && response.departments) {
+        // Chuyển đổi từ dạng đối tượng sang mảng tên phòng ban
+        setDepartments(response.departments);
+        console.log(`Đã tải ${response.departments.length} phòng ban`);
+      } else {
+        console.error('Không thể tải danh sách phòng ban:', response.error);
+      }
+    } catch (err) {
+      console.error('Lỗi khi tải danh sách phòng ban:', err);
+    } finally {
+      setIsLoadingDepartments(false);
+    }
+  };
   
   const fetchThreads = async () => {
     setIsLoading(true);
@@ -57,11 +79,11 @@ const ManagerDashboardPage = () => {
       if (data.success) {
         setThreads(data.threads || []);
       } else {
-        throw new Error('Failed to fetch threads');
+        throw new Error('Không thể lấy danh sách yêu cầu');
       }
     } catch (err) {
-      setError('Error loading threads. Please try again.');
-      console.error('Error fetching threads:', err);
+      setError('Lỗi khi tải danh sách yêu cầu. Vui lòng thử lại.');
+      console.error('Lỗi khi lấy danh sách yêu cầu:', err);
     } finally {
       setIsLoading(false);
     }
@@ -78,11 +100,11 @@ const ManagerDashboardPage = () => {
       if (response.success) {
         fetchThreads();
       } else {
-        setError('Failed to update priority');
+        setError('Không thể cập nhật mức độ ưu tiên');
       }
     } catch (err) {
-      setError('Error updating priority. Please try again.');
-      console.error('Error updating priority:', err);
+      setError('Lỗi khi cập nhật mức độ ưu tiên. Vui lòng thử lại.');
+      console.error('Lỗi khi cập nhật mức độ ưu tiên:', err);
     }
   };
   
@@ -90,7 +112,7 @@ const ManagerDashboardPage = () => {
     e.preventDefault();
     
     if (!selectedThread || !assignmentDept) {
-      setError('Please select a department');
+      setError('Vui lòng chọn một phòng ban');
       return;
     }
     
@@ -98,19 +120,28 @@ const ManagerDashboardPage = () => {
     setError('');
     
     try {
-      // Using mock service instead of real API
-      const response = await assignThread(selectedThread.id, assignmentDept);
+      // Tìm thông tin department được chọn
+      const selectedDepartment = departments.find(dept => dept.name === assignmentDept);
+      
+      if (!selectedDepartment) {
+        throw new Error('Không tìm thấy thông tin phòng ban');
+      }
+      
+      console.log(`Phân công thread ${selectedThread.id} cho phòng ban: ${selectedDepartment.name}`);
+      
+      // Gọi API với department name
+      const response = await assignThread(selectedThread.id, selectedDepartment.name);
       
       if (!response.success) {
-        throw new Error('Failed to assign thread');
+        throw new Error('Không thể phân công yêu cầu');
       }
       
       // Reset and refresh
       setSelectedThread(null);
       fetchThreads();
     } catch (err) {
-      setError('Error assigning thread. Please try again.');
-      console.error('Error assigning thread:', err);
+      setError('Lỗi khi phân công yêu cầu. Vui lòng thử lại.');
+      console.error('Lỗi khi phân công yêu cầu:', err);
     } finally {
       setIsAssigning(false);
     }
@@ -168,20 +199,20 @@ const ManagerDashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="sidebar">
-        <div className="sidebar-logo">Support Portal</div>
+        <div className="sidebar-logo">Cổng Hỗ Trợ</div>
         <ul className="sidebar-menu">
-          <li className="sidebar-menu-item active">Dashboard</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/all-tickets')}>All Tickets</li>
-          <li className="sidebar-menu-item" onClick={() => navigate('/analytics')}>Analytics</li>
-          <li className="sidebar-menu-item" onClick={handleLogout}>Logout</li>
+          <li className="sidebar-menu-item active">Bảng điều khiển</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/all-tickets')}>Tất cả yêu cầu</li>
+          <li className="sidebar-menu-item" onClick={() => navigate('/analytics')}>Phân tích</li>
+          <li className="sidebar-menu-item" onClick={handleLogout}>Đăng xuất</li>
         </ul>
       </div>
       
       <div className="main-content">
         <div className="page-header">
-          <h1 className="page-title">Manager Dashboard</h1>
+          <h1 className="page-title">Bảng điều khiển quản lý</h1>
           <div>
-            {user && <span>Welcome, {user.name || user.username}</span>}
+            {user && <span>Xin chào, {user.name || user.username}</span>}
           </div>
         </div>
         
@@ -189,15 +220,15 @@ const ManagerDashboardPage = () => {
           <div className="stats-cards d-flex mb-3">
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'new').length}</div>
-              <div className="stat-label">New Tickets</div>
+              <div className="stat-label">Yêu cầu mới</div>
             </div>
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'assigned').length}</div>
-              <div className="stat-label">Assigned Tickets</div>
+              <div className="stat-label">Yêu cầu đã phân công</div>
             </div>
             <div className="card stat-card">
               <div className="stat-value">{threads.filter(t => t.status === 'resolved').length}</div>
-              <div className="stat-label">Resolved</div>
+              <div className="stat-label">Đã giải quyết</div>
             </div>
           </div>
           
@@ -210,26 +241,28 @@ const ManagerDashboardPage = () => {
           {selectedThread && (
             <div className="card mb-3">
               <div className="card-header">
-                <h2 className="card-title">Assign Ticket</h2>
+                <h2 className="card-title">Phân công yêu cầu</h2>
               </div>
               <div className="card-body">
-                <p><strong>Title:</strong> {selectedThread.title}</p>
-                <p><strong>Type:</strong> {selectedThread.issue_type}</p>
-                <p><strong>Status:</strong> {selectedThread.status}</p>
+                <p><strong>Tiêu đề:</strong> {selectedThread.title}</p>
+                <p><strong>Loại:</strong> {selectedThread.issue_type}</p>
+                <p><strong>Trạng thái:</strong> {selectedThread.status}</p>
                 
                 <form onSubmit={handleAssignSubmit}>
                   <div className="form-group">
-                    <label htmlFor="department">Assign to Department:</label>
+                    <label htmlFor="department">Phân công cho phòng ban:</label>
                     <select
                       id="department"
                       className="form-control"
                       value={assignmentDept}
                       onChange={(e) => setAssignmentDept(e.target.value)}
-                      disabled={isAssigning}
+                      disabled={isAssigning || isLoadingDepartments}
                     >
-                      <option value="">-- Select Department --</option>
-                      {departments.map((dept, index) => (
-                        <option key={index} value={dept}>{dept}</option>
+                      <option value="">-- Chọn phòng ban --</option>
+                      {isLoadingDepartments ? (
+                        <option value="" disabled>Đang tải phòng ban...</option>
+                      ) : departments.map((dept) => (
+                        <option key={dept.id} value={dept.name}>{dept.name}</option>
                       ))}
                     </select>
                   </div>
@@ -240,7 +273,7 @@ const ManagerDashboardPage = () => {
                       className="btn"
                       disabled={isAssigning}
                     >
-                      {isAssigning ? 'Assigning...' : 'Assign Ticket'}
+                      {isAssigning ? 'Đang phân công...' : 'Phân công yêu cầu'}
                     </button>
                     <button 
                       type="button" 
@@ -248,7 +281,7 @@ const ManagerDashboardPage = () => {
                       onClick={() => setSelectedThread(null)}
                       disabled={isAssigning}
                     >
-                      Cancel
+                      Hủy
                     </button>
                   </div>
                 </form>
@@ -258,11 +291,11 @@ const ManagerDashboardPage = () => {
           
           <div className="card mb-3">
             <div className="card-header">
-              <h2 className="card-title">Filter Tickets</h2>
+              <h2 className="card-title">Lọc yêu cầu</h2>
             </div>
             <div className="filter-container">
               <div className="filter-group">
-                <label htmlFor="status-filter">Status:</label>
+                <label htmlFor="status-filter">Trạng thái:</label>
                 <select 
                   id="status-filter" 
                   className="form-control"
@@ -271,14 +304,19 @@ const ManagerDashboardPage = () => {
                 >
                   {statusOptions.map(status => (
                     <option key={status} value={status}>
-                      {status === 'all' ? 'All Statuses' : status.charAt(0).toUpperCase() + status.slice(1)}
+                      {status === 'all' ? 'Tất cả trạng thái' : 
+                       status === 'new' ? 'Mới' :
+                       status === 'assigned' ? 'Đã phân công' :
+                       status === 'in_progress' ? 'Đang xử lý' :
+                       status === 'resolved' ? 'Đã giải quyết' : 
+                       status.charAt(0).toUpperCase() + status.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
               
               <div className="filter-group">
-                <label htmlFor="type-filter">Type:</label>
+                <label htmlFor="type-filter">Loại:</label>
                 <select 
                   id="type-filter" 
                   className="form-control"
@@ -287,14 +325,19 @@ const ManagerDashboardPage = () => {
                 >
                   {typeOptions.map(type => (
                     <option key={type} value={type}>
-                      {type === 'all' ? 'All Types' : type.charAt(0).toUpperCase() + type.slice(1)}
+                      {type === 'all' ? 'Tất cả loại' : 
+                       type === 'question' ? 'Câu hỏi chung' :
+                       type === 'technical' ? 'Hỗ trợ kỹ thuật' :
+                       type === 'billing' ? 'Câu hỏi về thanh toán' :
+                       type === 'feedback' ? 'Phản hồi' :
+                       type.charAt(0).toUpperCase() + type.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
               
               <div className="filter-group">
-                <label htmlFor="department-filter">Department:</label>
+                <label htmlFor="department-filter">Phòng ban:</label>
                 <select 
                   id="department-filter" 
                   className="form-control"
@@ -303,15 +346,15 @@ const ManagerDashboardPage = () => {
                 >
                   {departmentOptions.map(dept => (
                     <option key={dept} value={dept}>
-                      {dept === 'all' ? 'All Departments' : 
-                       dept === 'unassigned' ? 'Unassigned' : dept}
+                      {dept === 'all' ? 'Tất cả phòng ban' : 
+                       dept === 'unassigned' ? 'Chưa phân công' : dept}
                     </option>
                   ))}
                 </select>
               </div>
               
               <div className="filter-group">
-                <label htmlFor="priority-filter">Priority:</label>
+                <label htmlFor="priority-filter">Mức độ ưu tiên:</label>
                 <select 
                   id="priority-filter" 
                   className="form-control"
@@ -320,19 +363,23 @@ const ManagerDashboardPage = () => {
                 >
                   {priorityOptions.map(priority => (
                     <option key={priority} value={priority}>
-                      {priority === 'all' ? 'All Priorities' : priority.charAt(0).toUpperCase() + priority.slice(1)}
+                      {priority === 'all' ? 'Tất cả mức độ ưu tiên' : 
+                       priority === 'high' ? 'Cao' :
+                       priority === 'medium' ? 'Trung bình' :
+                       priority === 'low' ? 'Thấp' :
+                       priority.charAt(0).toUpperCase() + priority.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
               
               <div className="filter-group search-group">
-                <label htmlFor="search-filter">Search:</label>
+                <label htmlFor="search-filter">Tìm kiếm:</label>
                 <input
                   id="search-filter"
                   type="text"
                   className="form-control"
-                  placeholder="Search in title, description or student name"
+                  placeholder="Tìm kiếm theo tiêu đề, mô tả hoặc tên sinh viên"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -348,33 +395,33 @@ const ManagerDashboardPage = () => {
                   setSearchQuery('');
                 }}
               >
-                Clear Filters
+                Xóa bộ lọc
               </button>
             </div>
           </div>
           
           <div className="card">
             <div className="card-header">
-              <h2 className="card-title">Tickets</h2>
-              <span className="ticket-count">{filteredThreads.length} tickets</span>
+              <h2 className="card-title">Yêu cầu</h2>
+              <span className="ticket-count">{filteredThreads.length} yêu cầu</span>
             </div>
             
             {isLoading ? (
-              <div className="text-center p-4">Loading...</div>
+              <div className="text-center p-4">Đang tải...</div>
             ) : filteredThreads.length > 0 ? (
               <div className="table-responsive">
                 <table className="table">
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Title</th>
-                      <th>Student</th>
-                      <th>Type</th>
-                      <th>Priority</th>
-                      <th>Status</th>
-                      <th>Created</th>
-                      <th>Assigned To</th>
-                      <th>Actions</th>
+                      <th>Tiêu đề</th>
+                      <th>Sinh viên</th>
+                      <th>Loại</th>
+                      <th>Ưu tiên</th>
+                      <th>Trạng thái</th>
+                      <th>Ngày tạo</th>
+                      <th>Phân công cho</th>
+                      <th>Hành động</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -382,7 +429,7 @@ const ManagerDashboardPage = () => {
                       <tr key={thread.id} className={`priority-${thread.priority || 'medium'}`}>
                         <td>{thread.id}</td>
                         <td className="ticket-title-cell">{thread.title}</td>
-                        <td>{thread.student_name || 'Unknown'}</td>
+                        <td>{thread.student_name || 'Không xác định'}</td>
                         <td>{thread.issue_type}</td>
                         <td>
                           <select 
@@ -390,9 +437,9 @@ const ManagerDashboardPage = () => {
                             value={thread.priority || 'medium'}
                             onChange={(e) => handlePriorityChange(thread.id, e.target.value)}
                           >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
+                            <option value="low">Thấp</option>
+                            <option value="medium">Trung bình</option>
+                            <option value="high">Cao</option>
                           </select>
                         </td>
                         <td>
@@ -401,21 +448,21 @@ const ManagerDashboardPage = () => {
                           </span>
                         </td>
                         <td>{new Date(thread.created_at).toLocaleDateString()}</td>
-                        <td>{thread.assigned_to || 'Unassigned'}</td>
+                        <td>{thread.assigned_to || 'Chưa phân công'}</td>
                         <td>
                           <div className="action-buttons">
                             <button 
                               className="btn btn-sm"
                               onClick={() => setSelectedThreadId(thread.id)}
                             >
-                              View
+                              Xem
                             </button>
                             {!thread.assigned_to && (
                               <button 
                                 className="btn btn-sm ms-2"
                                 onClick={() => handleAssignClick(thread)}
                               >
-                                Assign
+                                Phân công
                               </button>
                             )}
                           </div>
@@ -428,8 +475,8 @@ const ManagerDashboardPage = () => {
             ) : (
               <div className="text-center p-4">
                 {searchQuery || statusFilter !== 'all' || typeFilter !== 'all' || departmentFilter !== 'all' || priorityFilter !== 'all' ? 
-                  'No tickets match your filters.' : 
-                  'No tickets found.'}
+                  'Không có yêu cầu nào khớp với bộ lọc của bạn.' : 
+                  'Không tìm thấy yêu cầu nào.'}
               </div>
             )}
           </div>

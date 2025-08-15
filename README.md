@@ -72,12 +72,36 @@ npm run dev
 - Xem theo phòng/khoa
 - Báo cáo và phân tích
 
+## Cấu hình kết nối Backend/Frontend
+
+Khi triển khai hệ thống, cần điều chỉnh địa chỉ backend trong file `src/utils/api.js`:
+
+```javascript
+// Thay đổi giá trị này theo địa chỉ máy chủ backend 
+const API_URL = 'http://localhost:8000';
+```
+
+Các trường hợp phổ biến:
+- Local: `http://localhost:8000`
+- Máy chủ nội bộ: `http://192.168.x.x:8000` hoặc `http://tên-máy-chủ:8000`
+- Production: `https://api.example.com`
+
 ## Xử lý lỗi API
 
 Một số API có thể chưa hoàn thiện, hệ thống sử dụng mock data để đảm bảo UI hoạt động:
 - `/threads/{id}/messages`: Trả về 422 Unprocessable Entity
 - `/threads/statistics`: Trả về 404 Not Found
 
-## Liên hệ
+Các mock APIs được xử lý trong file `src/utils/threadService.js`.
+
+## Cấu hình Database
+
+Backend sử dụng MySQL. Cần thiết lập thông tin kết nối trong file `.env`:
+
+```
+DATABASE_URL=mysql+pymysql://username:password@localhost/student_support_db
+```
+
+## Thông tin liên hệ
 
 Liên hệ qua email hoặc GitHub để được hỗ trợ.

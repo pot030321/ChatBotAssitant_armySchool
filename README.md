@@ -1,19 +1,38 @@
-# Cổng Hỗ Trợ Sinh Viên
+# Cổng Hỗ Trợ Sinh Viên Thông Minh
 
 ## Giới thiệu
 
-Ứng dụng hỗ trợ sinh viên với tích hợp AI, cho phép sinh viên đặt câu hỏi, nhận phản hồi từ phòng/khoa và theo dõi quá trình giải quyết.
+Hệ thống hỗ trợ sinh viên thông minh dựa trên Large Language Models (LLM), cho phép:
+- Sinh viên đặt câu hỏi với AI và nhận phản hồi tức thì
+- Tạo yêu cầu trợ giúp chuyển đến các phòng/khoa chức năng
+- Quản lý phân công và theo dõi toàn bộ quy trình xử lý yêu cầu
+- Phân tích dữ liệu và báo cáo hiệu suất cho lãnh đạo
 
 ## Tài khoản demo
 
-| Vai trò | Tên đăng nhập | Mật khẩu |
-|---------|---------------|----------|
-| Sinh viên | student1 | 123456 |
-| Quản lý | manager | 123456 |
-| Phòng IT | cntt | 123456 |
-| Phòng Tài chính | finance | 123456 |
-| Phòng Đào tạo | academic | 123456 |
-| Lãnh đạo | leadership | 123456 |
+| Vai trò | Tên đăng nhập | Mật khẩu | Chức năng chính |
+|---------|---------------|----------|-----------------|
+| Sinh viên | student1 | 123456 | Tạo yêu cầu, chat với AI |
+| Quản lý | manager | 123456 | Phân công yêu cầu, quản lý hệ thống |
+| Phòng IT | cntt | 123456 | Xử lý yêu cầu CNTT |
+| Phòng Tài chính | finance | 123456 | Xử lý yêu cầu tài chính |
+| Phòng Đào tạo | academic | 123456 | Xử lý yêu cầu đào tạo |
+| Lãnh đạo | leadership | 123456 | Xem thống kê, báo cáo |
+
+## Công nghệ sử dụng
+
+### Backend
+- FastAPI: Framework API hiệu suất cao
+- SQLAlchemy: ORM cho database
+- MySQL: Hệ quản trị cơ sở dữ liệu
+- Alembic: Quản lý migration database
+- Pydantic: Validation và serialization dữ liệu
+
+### Frontend
+- React 18: UI framework
+- Vite: Build tool hiệu năng cao
+- React Router: Quản lý routing
+- CSS modules: Styling components
 
 ## Cài đặt và chạy
 
@@ -31,8 +50,11 @@ source venv/bin/activate  # Linux/Mac
 # 3. Cài đặt các gói phụ thuộc
 pip install -r requirements.txt
 
-# 4. Chạy server
-uvicorn app.main:app --reload
+# 4. Chạy migration để tạo cấu trúc database
+alembic upgrade head
+
+# 5. Chạy server
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### Frontend
@@ -45,63 +67,75 @@ npm install
 npm run dev
 ```
 
-## Quy trình sử dụng
+## Quy trình làm việc đầy đủ
 
-1. **Sinh viên** đăng nhập và gửi câu hỏi
-2. **Quản lý** phân công cho phòng/khoa phù hợp
-3. **Phòng/khoa** trả lời và xử lý yêu cầu
-4. **Lãnh đạo** theo dõi thống kê và hiệu suất
+1. **Sinh viên** đăng nhập vào hệ thống
+   - Chat với AI assistant để giải đáp thắc mắc
+   - Nếu cần sự hỗ trợ của con người, tạo yêu cầu mới
+   - Theo dõi trạng thái của yêu cầu
 
-## Các chức năng chính
+2. **Quản lý**
+   - Xem danh sách yêu cầu mới
+   - Phân loại và phân công cho phòng/khoa phù hợp
+   - Theo dõi tổng quan toàn bộ hệ thống
+
+3. **Phòng/khoa**
+   - Nhận yêu cầu được phân công
+   - Xử lý và phản hồi cho sinh viên
+   - Cập nhật trạng thái giải quyết
+   - Đánh dấu hoàn thành khi đã xử lý xong
+
+4. **Lãnh đạo**
+   - Theo dõi thống kê và hiệu suất
+   - Phân tích dữ liệu và báo cáo
+   - Ra quyết định dựa trên dữ liệu thực tế
+
+## Các chức năng chi tiết
 
 ### Sinh viên
-- Đặt câu hỏi mới
-- Xem lịch sử câu hỏi
-- Xem FAQ
+- Đăng nhập/đăng ký tài khoản
+- Chat với AI assistant
+- Tạo yêu cầu hỗ trợ mới
+- Xem lịch sử yêu cầu
+- Nhận thông báo khi có cập nhật
+- Đánh giá chất lượng phản hồi
 
 ### Phòng/khoa
 - Xem yêu cầu được phân công
-- Trả lời và cập nhật trạng thái
+- Phản hồi và tương tác với sinh viên
+- Cập nhật trạng thái xử lý
+- Chuyển tiếp yêu cầu đến bộ phận khác
+- Đánh dấu hoàn thành
 
 ### Quản lý
-- Phân công yêu cầu
-- Xem thống kê
+- Phân loại yêu cầu
+- Phân công cho phòng/khoa
+- Giám sát tiến độ xử lý
+- Quản lý tài khoản người dùng
+- Xem báo cáo và thống kê
 
 ### Lãnh đạo
 - Bảng điều khiển tổng quan
-- Xem theo phòng/khoa
-- Báo cáo và phân tích
+- Báo cáo hiệu suất theo phòng/khoa
+- Phân tích thời gian xử lý yêu cầu
+- Thống kê loại yêu cầu phổ biến
+- Xu hướng và dự báo nhu cầu
 
-## Cấu hình kết nối Backend/Frontend
+## Cấu hình hệ thống
 
-Khi triển khai hệ thống, cần điều chỉnh địa chỉ backend trong file `src/utils/api.js`:
+### Kết nối Backend/Frontend
+
+Điều chỉnh địa chỉ backend trong file `src/utils/api.js`:
 
 ```javascript
 // Thay đổi giá trị này theo địa chỉ máy chủ backend 
 const API_URL = 'http://localhost:8000';
 ```
 
-Các trường hợp phổ biến:
-- Local: `http://localhost:8000`
-- Máy chủ nội bộ: `http://192.168.x.x:8000` hoặc `http://tên-máy-chủ:8000`
-- Production: `https://api.example.com`
+### Cấu hình Database
 
-## Xử lý lỗi API
+Chỉnh sửa thông tin kết nối database trong file `be/app/config/settings.py`
 
-Một số API có thể chưa hoàn thiện, hệ thống sử dụng mock data để đảm bảo UI hoạt động:
-- `/threads/{id}/messages`: Trả về 422 Unprocessable Entity
-- `/threads/statistics`: Trả về 404 Not Found
+### Cấu hình LLM API
 
-Các mock APIs được xử lý trong file `src/utils/threadService.js`.
-
-## Cấu hình Database
-
-Backend sử dụng MySQL. Cần thiết lập thông tin kết nối trong file `.env`:
-
-```
-DATABASE_URL=mysql+pymysql://username:password@localhost/student_support_db
-```
-
-## Thông tin liên hệ
-
-Liên hệ qua email hoặc GitHub để được hỗ trợ.
+Thêm API key cho Gemini trong file môi trường `.env`

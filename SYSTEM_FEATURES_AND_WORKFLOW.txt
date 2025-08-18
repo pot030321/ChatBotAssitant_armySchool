@@ -1,0 +1,218 @@
+=======================================================
+HỆ THỐNG HỖ TRỢ SINH VIÊN THÔNG MINH - MÔ TẢ CHI TIẾT
+=======================================================
+
+I. TỔNG QUAN HỆ THỐNG
+---------------------
+
+Hệ thống Hỗ trợ Sinh viên Thông minh là giải pháp toàn diện nhằm tự động hóa và tối ưu hóa quy trình tiếp nhận, phân loại, xử lý và giải quyết các yêu cầu hỗ trợ từ sinh viên. Hệ thống sử dụng trí tuệ nhân tạo (AI) để cung cấp câu trả lời tức thì và tích hợp quy trình làm việc có tổ chức giữa các phòng ban để đảm bảo các yêu cầu phức tạp được giải quyết hiệu quả.
+
+II. PHÂN QUYỀN NGƯỜI DÙNG
+-------------------------
+
+1. SINH VIÊN:
+   - Đăng nhập vào hệ thống với tài khoản sinh viên
+   - Tương tác với trợ lý ảo để nhận giải đáp tức thì
+   - Tạo yêu cầu hỗ trợ mới khi cần sự can thiệp của con người
+   - Theo dõi trạng thái xử lý của các yêu cầu đã gửi
+   - Nhận thông báo khi có cập nhật mới từ phía nhà trường
+   - Xem lịch sử các yêu cầu đã gửi và phản hồi
+
+2. QUẢN LÝ:
+   - Xem tổng quan tất cả yêu cầu trong hệ thống
+   - Phân loại yêu cầu theo loại, mức độ ưu tiên
+   - Phân công yêu cầu cho các phòng/khoa phù hợp
+   - Theo dõi trạng thái xử lý của từng yêu cầu
+   - Tương tác với cả sinh viên và nhân viên phòng/khoa
+   - Truy cập báo cáo thống kê về hiệu suất hệ thống
+
+3. NHÂN VIÊN PHÒNG/KHOA:
+   - Xem danh sách yêu cầu được phân công
+   - Tiếp nhận và xử lý yêu cầu
+   - Cập nhật trạng thái xử lý
+   - Gửi phản hồi trực tiếp tới sinh viên
+   - Đánh dấu yêu cầu đã giải quyết
+   - Chuyển tiếp yêu cầu khi cần thiết
+
+4. LÃNH ĐẠO:
+   - Xem tổng quan hoạt động toàn hệ thống
+   - Truy cập báo cáo thống kê chi tiết
+   - Phân tích hiệu suất của từng phòng/khoa
+   - Xem phân tích xu hướng và dự báo
+   - Ra quyết định dựa trên dữ liệu thực tế
+
+III. QUY TRÌNH LÀM VIỆC (WORKFLOW)
+----------------------------------
+
+1. TIẾP NHẬN YÊU CẦU:
+   - Sinh viên đăng nhập vào hệ thống
+   - Sinh viên tương tác với chatbot AI để nhận câu trả lời nhanh
+   - Nếu câu hỏi phức tạp, chatbot đề xuất tạo yêu cầu hỗ trợ
+   - Sinh viên điền thông tin yêu cầu và gửi đi
+   - Hệ thống tự động phân loại và gửi thông báo đến quản lý
+
+2. PHÂN CÔNG XỬ LÝ:
+   - Quản lý nhận thông báo về yêu cầu mới
+   - Quản lý xem xét nội dung yêu cầu
+   - Quản lý phân công yêu cầu cho phòng/khoa phù hợp
+   - Hệ thống cập nhật trạng thái yêu cầu thành "Đã phân công"
+   - Nhân viên phòng/khoa được phân công nhận thông báo
+
+3. XỬ LÝ YÊU CẦU:
+   - Nhân viên phòng/khoa tiếp nhận yêu cầu được phân công
+   - Cập nhật trạng thái thành "Đang xử lý"
+   - Tương tác với sinh viên nếu cần thêm thông tin
+   - Tiến hành giải quyết vấn đề
+   - Ghi lại các hành động đã thực hiện
+
+4. PHẢN HỒI VÀ HOÀN THÀNH:
+   - Nhân viên phòng/khoa cung cấp giải pháp/câu trả lời
+   - Cập nhật trạng thái thành "Đã giải quyết"
+   - Sinh viên nhận thông báo và xem phản hồi
+   - Sinh viên có thể đánh giá chất lượng phản hồi
+   - Yêu cầu được đánh dấu hoàn thành và lưu vào lịch sử
+
+5. THEO DÕI VÀ BÁO CÁO:
+   - Quản lý và lãnh đạo theo dõi toàn bộ quy trình
+   - Hệ thống tự động tổng hợp dữ liệu thống kê
+   - Tạo báo cáo về thời gian xử lý, hiệu suất phòng ban
+   - Phân tích xu hướng và loại yêu cầu phổ biến
+   - Đưa ra dự báo và đề xuất cải tiến quy trình
+
+IV. TRẠNG THÁI YÊU CẦU (STATUS FLOW)
+------------------------------------
+
+1. MỚI (NEW):
+   - Yêu cầu vừa được sinh viên tạo
+   - Chưa được xem xét bởi quản lý
+   - Đang chờ phân loại và phân công
+
+2. CHỜ XỬ LÝ (PENDING):
+   - Yêu cầu đã được quản lý xem xét
+   - Đang chờ được phân công cho phòng/khoa
+
+3. ĐÃ PHÂN CÔNG (ASSIGNED):
+   - Yêu cầu đã được phân công cho phòng/khoa cụ thể
+   - Đang chờ nhân viên phòng/khoa tiếp nhận
+
+4. ĐANG XỬ LÝ (IN PROGRESS):
+   - Nhân viên phòng/khoa đang tiến hành xử lý
+   - Có thể có tương tác giữa nhân viên và sinh viên
+
+5. ĐÃ GIẢI QUYẾT (RESOLVED):
+   - Yêu cầu đã được giải quyết
+   - Phản hồi đã được gửi cho sinh viên
+   - Chờ sinh viên xác nhận và đánh giá
+
+6. CHUYỂN TIẾP (ESCALATED):
+   - Yêu cầu quá phức tạp hoặc cần sự tham gia của cấp cao hơn
+   - Cần xử lý đặc biệt hoặc quyết định từ lãnh đạo
+
+V. TÍNH NĂNG CHI TIẾT
+---------------------
+
+1. CHATBOT TRỢ LÝ ẢO:
+   - Trả lời tự động các câu hỏi thường gặp
+   - Sử dụng Gemini API để xử lý ngôn ngữ tự nhiên
+   - Tích hợp bộ nhớ ngữ cảnh để duy trì cuộc trò chuyện mạch lạc
+   - Đề xuất tạo yêu cầu khi phát hiện vấn đề phức tạp
+   - Hỗ trợ đa ngôn ngữ (Tiếng Việt, Tiếng Anh)
+
+2. HỆ THỐNG QUẢN LÝ YÊU CẦU:
+   - Tạo và lưu trữ yêu cầu với đầy đủ thông tin
+   - Phân loại tự động dựa trên nội dung
+   - Gán mức độ ưu tiên (thấp, trung bình, cao, khẩn cấp)
+   - Theo dõi thời gian xử lý và thời hạn
+   - Tìm kiếm và lọc yêu cầu theo nhiều tiêu chí
+
+3. TƯƠNG TÁC VÀ PHẢN HỒI:
+   - Hệ thống tin nhắn tích hợp giữa các bên liên quan
+   - Thông báo thời gian thực khi có cập nhật
+   - Đính kèm tệp tin và hình ảnh trong phản hồi
+   - Lịch sử tương tác đầy đủ và theo thời gian
+   - Mẫu phản hồi nhanh cho các tình huống phổ biến
+
+4. PHÂN TÍCH VÀ BÁO CÁO:
+   - Thống kê tổng quan theo thời gian thực
+   - Báo cáo chi tiết theo phòng/khoa
+   - Đánh giá hiệu suất xử lý (thời gian, số lượng)
+   - Phân tích xu hướng và mùa vụ
+   - Biểu đồ trực quan và bảng điều khiển tương tác
+
+5. QUẢN TRỊ HỆ THỐNG:
+   - Quản lý tài khoản người dùng và phân quyền
+   - Cấu hình luồng công việc và quy trình
+   - Tùy chỉnh biểu mẫu và mẫu phản hồi
+   - Quản lý danh sách phòng/khoa và dịch vụ
+   - Sao lưu và khôi phục dữ liệu
+
+VI. CÁC LOẠI YÊU CẦU ĐƯỢC HỖ TRỢ
+--------------------------------
+
+1. THÔNG TIN HỌC TẬP:
+   - Thông tin về chương trình đào tạo
+   - Lịch học và lịch thi
+   - Đăng ký học phần
+   - Kết quả học tập và điểm số
+
+2. TÀI CHÍNH VÀ HỌC PHÍ:
+   - Thông tin học phí và các khoản phí
+   - Thanh toán và hóa đơn
+   - Học bổng và hỗ trợ tài chính
+   - Hoàn phí và miễn giảm học phí
+
+3. CÔNG NGHỆ THÔNG TIN:
+   - Truy cập tài khoản và mật khẩu
+   - Sử dụng email và dịch vụ online
+   - Truy cập wifi và mạng
+   - Phần mềm và công cụ học tập
+
+4. CƠ SỞ VẬT CHẤT:
+   - Đăng ký phòng học/phòng thí nghiệm
+   - Báo cáo sự cố cơ sở vật chất
+   - Mượn thiết bị và tài liệu
+   - Sử dụng thư viện và không gian học tập
+
+5. CÔNG TÁC SINH VIÊN:
+   - Hoạt động ngoại khóa và câu lạc bộ
+   - Chứng chỉ và xác nhận sinh viên
+   - Tư vấn và hỗ trợ tâm lý
+   - Thủ tục hành chính sinh viên
+
+VII. LƯU Ý KỸ THUẬT
+-------------------
+
+1. YÊU CẦU HỆ THỐNG:
+   - Python 3.10+ cho backend
+   - Node.js 16+ cho frontend
+   - MySQL 8.0+ cho database
+   - 2GB RAM trở lên cho server
+   - Kết nối internet ổn định cho API AI
+
+2. BẢO MẬT:
+   - Xác thực JWT (JSON Web Tokens)
+   - Mã hóa dữ liệu nhạy cảm
+   - Phân quyền chi tiết theo vai trò
+   - Ghi log đầy đủ các hoạt động
+   - Kiểm soát truy cập theo IP (tùy chọn)
+
+3. HIỆU SUẤT:
+   - Caching cho các truy vấn phổ biến
+   - Tối ưu database với indexing
+   - Lazy loading cho dữ liệu lớn
+   - Rate limiting để tránh quá tải
+   - Auto-scaling cho môi trường production
+
+4. TÙY BIẾN:
+   - Tùy chỉnh giao diện người dùng
+   - Thêm/chỉnh sửa loại yêu cầu
+   - Điều chỉnh quy trình xử lý
+   - Thay đổi mẫu phản hồi
+   - Tích hợp với các hệ thống khác
+
+VIII. KẾT LUẬN
+--------------
+
+Hệ thống Hỗ trợ Sinh viên Thông minh cung cấp giải pháp toàn diện để nâng cao chất lượng dịch vụ hỗ trợ sinh viên, giảm thời gian xử lý yêu cầu, và tạo trải nghiệm tốt hơn cho tất cả các bên liên quan. Thông qua việc kết hợp trí tuệ nhân tạo với quy trình làm việc có cấu trúc, hệ thống giúp tự động hóa các tác vụ thường xuyên đồng thời đảm bảo các vấn đề phức tạp được giải quyết hiệu quả bởi đội ngũ nhân viên có chuyên môn.
+
+Với khả năng liên tục cải thiện dựa trên dữ liệu và phản hồi, hệ thống sẽ ngày càng thông minh hơn theo thời gian, mang lại giá trị ngày càng cao cho cả nhà trường và sinh viên.

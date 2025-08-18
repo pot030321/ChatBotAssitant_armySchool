@@ -9,8 +9,11 @@ from ..schemas import ThreadCreate, ThreadUpdate
 
 def create_thread(db: Session, thread_data: ThreadCreate, student_id: Optional[int] = None) -> Thread:
     """Create a new thread."""
+    # Tạo ID UUID mới cho thread
+    thread_id = str(uuid.uuid4())
+    
     db_thread = Thread(
-        # Bỏ id để MySQL tự tạo auto increment
+        id=thread_id,  # Gán ID tường minh
         title=thread_data.title,
         student_id=student_id,
         department=thread_data.department,

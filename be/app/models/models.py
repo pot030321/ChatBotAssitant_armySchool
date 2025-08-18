@@ -36,7 +36,7 @@ class User(Base):
 class Thread(Base):
     __tablename__ = "threads"
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     title = Column(String(255), nullable=False)
     student_id = Column(Integer, ForeignKey("users.id"))
     department = Column(String(100), nullable=True)  # Giữ lại trường cũ để tương thích
@@ -62,7 +62,7 @@ class Message(Base):
     __tablename__ = "messages"
     
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread_id = Column(Integer, ForeignKey("threads.id", ondelete="CASCADE"), nullable=False)
+    thread_id = Column(String(36), ForeignKey("threads.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     sender = Column(Enum(*USER_ROLES), nullable=False)
     text = Column(Text, nullable=False)

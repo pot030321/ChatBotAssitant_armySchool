@@ -136,13 +136,17 @@ export const createThread = async (threadData) => {
 // Add message to a thread
 export const addThreadMessage = async (threadId, messageData) => {
   try {
-    // Đảm bảo chúng ta sử dụng tên trường đúng cho API (text thay vì content)
+    // Map frontend field names to backend expected field names
     const apiMessageData = {
       text: messageData.content,
-      sender: messageData.sender_type || 'student'
+      sender: messageData.sender_type || 'student' // Map sender_type to sender
     };
     
+    console.log('Sending message data to API:', apiMessageData);
+    console.log('Thread ID:', threadId);
+    
     const message = await apiRequest(`/threads/${threadId}/messages`, 'POST', apiMessageData);
+    console.log('API response for message creation:', message);
     
     return {
       success: true,

@@ -138,9 +138,17 @@ def update_thread(
 def assign_thread(
     thread_id: str,  # Changed from int to str to support UUID strings
     department: str,
-    current_user: Dict[str, Any] = Depends(auth_service.get_current_user),
+    current_user: Optional[Dict[str, Any]] = Depends(auth_service.get_current_user),
     db: Session = Depends(get_db)
 ):
+    # Kiểm tra xác thực
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
     if current_user["role"] != "manager":
         raise HTTPException(status_code=403, detail="Access denied")
     
